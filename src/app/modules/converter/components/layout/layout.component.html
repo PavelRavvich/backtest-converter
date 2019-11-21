@@ -1,1 +1,6 @@
-<p>layout works!</p>
+<div [hidden]="!isBaseRoute">
+    <app-card class="m15">
+        <app-form></app-form>
+    </app-card>
+</div>
+<router-outlet></router-outlet>

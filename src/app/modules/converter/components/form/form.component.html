@@ -1,0 +1,30 @@
+<div class="page-title-bar">
+    <app-title class="page-title mr-auto">Загрузка тестов</app-title>
+    <app-buttons>
+        <button
+            type="button"
+            color="primary"
+            mat-raised-button
+            routerLink="list">
+            Конвертировать
+        </button>
+    </app-buttons>
+</div>
+<app-card [formGroup]="form">
+    <div class="wrapper">
+        <app-row>
+            <mat-form-field class="w-full textarea" appearance="outline">
+                <mat-label>Тесты</mat-label>
+                <textarea
+                    matInput
+                    required
+                    formControlName="content"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="3"
+                    cdkAutosizeMaxRows="40"
+                ></textarea>
+            </mat-form-field>
+        </app-row>
+    </div>
+</app-card>
+
