@@ -1,0 +1,44 @@
+@import '~@angular/material/theming';
+
+@mixin material () {
+  $mat-blue: (
+    50: #e0eff8,
+    100: #b3d6ee,
+    200: #80bbe3,
+    300: #4da0d8,
+    400: #268bcf,
+    500: #0077c7,
+    600: #006fc1,
+    700: #0064ba,
+    800: #005ab3,
+    900: #0047a6,
+    A100: #d0e1ff,
+    A200: #9dc0ff,
+    A400: #6a9fff,
+    A700: #518fff,
+    contrast: (
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text,
+    )
+  );
+  $candy-app-primary: mat-palette($mat-blue);
+  $candy-app-accent: mat-palette($mat-blue);
+  $candy-app-warn: mat-palette($mat-red);
+  $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+  @include mat-core();
+  @include angular-material-theme($candy-app-theme);
+}
+
+@include material();

@@ -1,0 +1,35 @@
+@import 'src/scss/shared';
+
+:host {
+    @include col-auto();
+}
+.row {
+    @include row-auto();
+    height: 21px;
+    margin-left: -8px;
+}
+.item {
+    margin-left: 8px;
+    font-size: 14px;
+    line-height: 21px;
+    &:after {
+        content: '/';
+        margin-left: 8px;
+        pointer-events: none;
+    }
+}
+.title {
+    color: #8C96A9;
+    text-decoration-line: underline;
+    cursor: pointer;
+}
+.item--last {
+    &:after {
+        display: none;
+    }
+    .title {
+        text-decoration-line: none;
+        cursor: default;
+        pointer-events: none;
+    }
+}

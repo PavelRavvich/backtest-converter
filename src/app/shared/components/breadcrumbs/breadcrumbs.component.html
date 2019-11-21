@@ -1,0 +1,7 @@
+<div class="row">
+    <div class="item"
+         [ngClass]="{ 'item--last' : item === items[items.length - 1]}"
+         *ngFor="let item of items">
+        <span class="title" (click)="select.emit(item)">{{item.title}}</span>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+@import 'src/styles';
+
+:host {
+    @include col-auto();
+    overflow: hidden;
+    border-radius: 4px;
+    background: #FFFFFF;
+    &[card-top] {
+        border-radius: 4px 4px 0 0;
+    }
+    &[card-bottom] {
+        border-radius: 0 0 4px 4px;
+    }
+    &[card-padding] {
+        padding: 24px;
+    }
+    &[card-margin-top] {
+        margin-top: 12px;
+    }
+}

@@ -1,0 +1,35 @@
+@mixin flex() {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+@mixin col-max() {
+  @include flex();
+  flex-flow: column nowrap;
+  flex: 1 1 0px;
+}
+
+@mixin row-max() {
+  @include flex();
+  flex-flow: row nowrap;
+  flex: 1 1 0px;
+}
+
+@mixin col-auto() {
+  @include flex();
+  flex-flow: column nowrap;
+  flex: 0 0 auto;
+}
+
+@mixin row-auto() {
+  @include flex();
+  flex-flow: row nowrap;
+  flex: 0 0 auto;
+}
+
+@mixin text-line() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

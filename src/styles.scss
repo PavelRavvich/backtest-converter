@@ -1,0 +1,16 @@
+// Order import important!!!
+
+// Reset of standard styles
+@import 'scss/custom-reset';
+
+// Material (connection)
+@import 'scss/material';
+
+// Material (customization)
+@import 'scss/custom-material';
+
+// Screen of loading
+@import 'scss/load-screen';
+
+// Modifiers
+@import 'scss/modifiers';

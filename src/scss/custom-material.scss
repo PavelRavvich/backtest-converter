@@ -1,0 +1,518 @@
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+$spacer: 1rem !default;
+$spacers: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$spacers: map-merge(
+    (
+      0: 0,
+      1: ($spacer * .25),
+      2: ($spacer * .5),
+      3: $spacer,
+      4: ($spacer * 1.5),
+      5: ($spacer * 2),
+      6: ($spacer * 2.5)
+    ),
+    $spacers
+);
+
+// Mixin
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
+  @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @each $prop, $abbrev in (margin: m, padding: p) {
+      @each $size, $length in $spacers {
+
+        .#{$abbrev}#{$infix}-#{$size} {
+          #{$prop}: $length !important;
+        }
+        .#{$abbrev}t#{$infix}-#{$size},
+        .#{$abbrev}y#{$infix}-#{$size} {
+          #{$prop}-top: $length !important;
+        }
+        .#{$abbrev}r#{$infix}-#{$size},
+        .#{$abbrev}x#{$infix}-#{$size} {
+          #{$prop}-right: $length !important;
+        }
+        .#{$abbrev}b#{$infix}-#{$size},
+        .#{$abbrev}y#{$infix}-#{$size} {
+          #{$prop}-bottom: $length !important;
+        }
+        .#{$abbrev}l#{$infix}-#{$size},
+        .#{$abbrev}x#{$infix}-#{$size} {
+          #{$prop}-left: $length !important;
+        }
+      }
+    }
+
+    // Some special margin utils
+    .m#{$infix}-auto {
+      margin: auto !important;
+    }
+    .mt#{$infix}-auto,
+    .my#{$infix}-auto {
+      margin-top: auto !important;
+    }
+    .mr#{$infix}-auto,
+    .mx#{$infix}-auto {
+      margin-right: auto !important;
+    }
+    .mb#{$infix}-auto,
+    .my#{$infix}-auto {
+      margin-bottom: auto !important;
+    }
+    .ml#{$infix}-auto,
+    .mx#{$infix}-auto {
+      margin-left: auto !important;
+    }
+  }
+}
+
+mat-icon {
+  display: inline-block;
+  vertical-align: middle;
+  color: #8298B2;
+  transition: color 0.2s ease;
+  &:hover {
+    color: #0077C8;
+  }
+}
+.mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
+
+mat-horizontal-stepper {
+  .mat-horizontal-stepper-header-container {
+    background-color: #fafafa;
+  }
+  .mat-horizontal-content-container {
+    padding: 0;
+  }
+}
+.mat-stepper-horizontal {
+  background-color: #fafafa;
+}
+.mat-table {
+  width: 100%;
+}
+.mat-menu-content {
+  padding: 0!important;
+}
+.ng-star-inserted {
+  outline: none;
+}
+
+.color {
+  &-primary {
+    color: #0077c7 !important;
+  }
+  &-warn {
+    color: #c62828 !important;
+  }
+  &-light-blue {
+    color: #00bfff !important;
+  }
+  &-grey {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  &-green {
+    color: rgb(37, 167, 43);
+  }
+}
+
+// mat-button
+.mat-flat-button,
+.mat-raised-button,
+.mat-fab,
+.mat-mini-fab {
+  text-transform: uppercase;
+  height: 40px;
+  transition: background 0.2s ease;
+  border-radius: 4px;
+  background: #FFFFFF;
+  &:hover {
+    background: #F4F6FB;
+  }
+  &.cdk-focused {
+    background: #DFE7F5;
+    color: #0C2340;
+  }
+  &.mat-primary {
+    background: #0077C8;
+    &:hover {
+      background: #005D9D;
+    }
+    &.cdk-focused {
+      background: #68BEF3;
+      color: #FFFFFF;
+    }
+  }
+  &.mat-warn {
+    background: #D65A5A;
+    &:hover {
+      background: #c55050;
+    }
+    &.cdk-focused {
+      background: #e96767;
+      color: #FFFFFF;
+    }
+  }
+}
+.mat-button-ripple.mat-ripple,
+.mat-button-focus-overlay {
+  display: none;
+}
+.mat-raised-button:not([class*='mat-elevation-z']),
+.mat-raised-button:not([disabled]):active:not([class*='mat-elevation-z']) {
+  box-shadow: 0px 1px 2px rgba(30, 49, 85, 0.15);
+}
+.mat-icon-button {
+  &[disabled],
+  &[disabled][disabled],
+  &[disabled]:hover,
+  &[disabled][disabled]:hover {
+    color: #8298B2;
+    mat-icon,
+    mat-icon:hover {
+      color: #8298B2;
+    }
+  }
+}
+.mat-flat-button.mat-primary,
+.mat-flat-button.mat-accent,
+.mat-flat-button.mat-warn,
+.mat-flat-button,
+.mat-raised-button.mat-primary,
+.mat-raised-button.mat-accent,
+.mat-raised-button.mat-warn,
+.mat-raised-button,
+.mat-fab.mat-primary,
+.mat-fab.mat-accent,
+.mat-fab.mat-warn,
+.mat-fab,
+.mat-mini-fab.mat-primary,
+.mat-mini-fab.mat-accent,
+.mat-mini-fab.mat-warn,
+.mat-mini-fab {
+  &[disabled],
+  &[disabled][disabled],
+  &[disabled]:hover,
+  &[disabled][disabled]:hover {
+    background: #DFE7F5;
+    color: #8298B2;
+  }
+}
+
+// mat-checkbox
+.mat-checkbox-frame {
+  border-color: #A7BDD6;
+}
+.mat-checkbox-checkmark {
+  transform: scale(0.8);
+}
+.mat-checkbox-label {
+  font-size: 16px;
+  line-height: 24px;
+  color: #0C2340;
+}
+.mat-checkbox-disabled.mat-checkbox-checked,
+.mat-checkbox-disabled.mat-checkbox-indeterminate {
+  & .mat-checkbox-background {
+    background-color: #D1DAEF;
+  }
+}
+.mat-checkbox-disabled:not(.mat-checkbox-checked) .mat-checkbox-frame {
+  border-color: #D1DAEF;
+}
+.mat-checkbox-disabled .mat-checkbox-label {
+  color: #8298B2;
+}
+
+// mat-slide-toggle
+.mat-slide-toggle .mat-slide-toggle-bar {
+  background-color: #DFE7F5;
+}
+.mat-slide-toggle .mat-slide-toggle-content {
+  font-size: 16px;
+  line-height: 24px;
+  color: #0C2340;
+}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: rgba(#68BEF3, 0.4);
+}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: #0077C8;
+}
+.mat-slide-toggle-thumb {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.24),
+    0px 0px 2px rgba(0, 0, 0, 0.12);
+}
+mat-slide-toggle.mat-slide-toggle.mat-disabled {
+  opacity: 1;
+  .mat-slide-toggle-content {
+    color: #8298B2;
+  }
+  .mat-slide-toggle-thumb {
+    background-color: #7088A5;
+  }
+  .mat-slide-toggle-bar {
+    background-color: #D1DAEF;
+  }
+}
+
+// mat-radio
+.mat-radio-button {
+  .mat-radio-label-content {
+    font-size: 16px;
+    line-height: 24px;
+    color: #0C2340;
+  }
+  .mat-radio-outer-circle,
+  .mat-radio-inner-circle {
+    border-color: #A7BDD6;
+  }
+  &.mat-radio-checked .mat-radio-outer-circle,
+  .mat-radio-inner-circle {
+    border-color: #0077C8;
+  }
+  .mat-radio-inner-circle {
+    background-color: #0077C8;
+  }
+}
+mat-radio-button.mat-radio-button.mat-radio-disabled {
+  &.mat-radio-checked .mat-radio-outer-circle,
+  .mat-radio-outer-circle,
+  .mat-radio-inner-circle {
+    border-color: #D1DAEF;
+  }
+  .mat-radio-inner-circle {
+    background-color: #D1DAEF;
+  }
+  .mat-radio-label-content {
+    color: #8298B2;
+  }
+}
+
+// mat-tab
+.mat-tab-nav-bar,
+.mat-tab-header {
+  border-bottom: 1px solid #D1DAEF;
+  .mat-ripple-element {
+    background-color: transparent;
+  }
+}
+div.mat-tab-label {
+  margin: 0 12px;
+  min-width: 0;
+  padding: 0;
+  opacity: 1;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #8C96A9;
+  transition: color 0.2s ease;
+  &:first-child {
+    margin-left: 32px;
+  }
+  &:last-child {
+    margin-right: 32px;
+  }
+  &:hover,
+  &.mat-tab-label-active {
+    color: #0C2340;
+  }
+}
+.sub-tabs {
+  div.mat-tab-label {
+    margin: 0;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+mat-ink-bar.mat-ink-bar {
+  height: 3px;
+}
+
+// mat-paginator
+.mat-paginator {
+  font-size: 12px;
+  line-height: 24px;
+  color: #0C2340;
+  border-top: solid 1px #D1DAEF;
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+  .mat-icon-button {
+    color: #7088A5;
+  }
+  .mat-icon-button {
+    &[disabled],
+    &[disabled][disabled],
+    &[disabled]:hover,
+    &[disabled][disabled]:hover {
+      color: #d6dde6;
+      mat-icon,
+      mat-icon:hover {
+        color: #d6dde6;
+      }
+    }
+  }
+}
+
+// mat-option
+mat-option.mat-option {
+  font-size: 14px;
+}
+.mat-option:hover:not(.mat-option-disabled),
+.mat-option:focus:not(.mat-option-disabled) {
+  background: #DFE7F5;
+}
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background: #DFE7F5;
+}
+
+// mat-form-field
+.mat-form-field {
+  mat-icon {
+    color: rgba(0, 0, 0, 0.24);
+  }
+}
+mat-form-field .mat-form-field {
+  &-underline {
+    position: static;
+  }
+  &-subscript-wrapper {
+    position: static;
+  }
+}
+
+// mat-form-field-appearance-outline
+.mat-form-field.mat-form-field-appearance-outline {
+  .mat-form-field-infix {
+    padding: 7px 0 13px 0;
+  }
+  .mat-form-field-label {
+    top: 24px;
+    color: #8298B2;
+  }
+  mat-icon,
+  .mat-select-arrow {
+    color: #8298B2;
+  }
+  input.mat-input-element {
+    color: #0C2340;
+  }
+  .mat-input-element:disabled {
+    color: #A7BDD6;
+  }
+  .mat-form-field-flex {
+    padding: 0 16px;
+    min-height: 51px;
+    .mat-form-field-prefix {
+      margin-right: 16px;
+    }
+    .mat-form-field-suffix {
+      margin-left: 16px;
+    }
+    .mat-form-field-prefix,
+    .mat-form-field-suffix {
+      min-width: 24px;
+      height: 24px;
+      top: 2px;
+      bottom: 0;
+      margin-top: auto;
+      margin-bottom: auto;
+      & .mat-icon-button {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .mat-datepicker-toggle {
+      color: #8298B2;
+    }
+    .mat-datepicker-toggle-active {
+      color: #0077C8;
+    }
+  }
+}
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
+.mat-form-field-label,
+.mat-form-field-appearance-outline.mat-form-field-can-float
+.mat-input-server:focus + .mat-form-field-label-wrapper
+.mat-form-field-label {
+  transform: translateY(-20px) scale(0.75);
+}
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #A7BDD6;
+}
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #0077C8;
+}
+.mat-form-field-type-mat-native-select.mat-form-field-disabled
+.mat-form-field-infix::after {
+  color: #A7BDD6;
+}
+.mat-form-field-appearance-outline.mat-form-field-disabled {
+  .mat-form-field-label {
+    color: #A7BDD6;
+  }
+  .mat-form-field-outline {
+    color: transparent;
+    // background: #F4F6FB;
+    // https://jira.globus-ltd.com/browse/CHEMEXSOL-3772
+    background: #e8e8e8;
+    border-radius: 3px;
+  }
+  mat-icon,
+  .mat-select-arrow {
+    color: #A7BDD6;
+  }
+}
+.mat-form-field-appearance-outline .mat-select-trigger .mat-select-arrow-wrapper {
+  transform: translateY(0);
+}
+.mat-form-field-appearance-outline div.mat-form-field-wrapper {
+  margin-bottom: 0px;
+  padding-bottom: 13px;
+}
+
+
+// overlay
+.cdk-global-overlay-wrapper {
+  pointer-events: auto;
+  overflow: auto;
+}
+.cdk-overlay-backdrop {
+  background: rgba(#0C2340, 0.8);
+}
