@@ -7,9 +7,6 @@ import {
     ActivatedRoute,
 } from '@angular/router';
 
-// Services
-import { BacktestService } from '../../services';
-
 @Component({
     selector: 'app-layout',
     templateUrl: './layout.component.html',
@@ -20,7 +17,6 @@ export class LayoutComponent {
     constructor(
         private readonly router: Router,
         private readonly route: ActivatedRoute,
-        private readonly backtest: BacktestService,
     ) {
         this.routerSubscription = this.router.events
             .pipe(

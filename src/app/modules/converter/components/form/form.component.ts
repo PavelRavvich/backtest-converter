@@ -7,6 +7,10 @@ import {
     Validators,
     FormControl,
 } from '@angular/forms';
+import {
+    Router,
+    ActivatedRoute,
+} from '@angular/router';
 
 // Helpers
 import { toCase } from '../../helpers';
@@ -23,7 +27,9 @@ import { BacktestService } from '../../services';
 export class FormComponent implements OnInit {
 
     constructor(
-        private readonly backtest: BacktestService
+        private readonly router: Router,
+        private readonly route: ActivatedRoute,
+        private readonly backtestService: BacktestService,
     ) {}
 
     // Data form
@@ -37,8 +43,19 @@ export class FormComponent implements OnInit {
     }
 
     public convert(): void {
-        const { content, paramsLength } = this.form.value;
+        const {
+            content,
+            paramsLength,
+        } = this.form.value;
+        this.form.get('content').reset();
+
         const lines = content.split('\n');
-        this.backtest.cases = lines.map(item => toCase(item, paramsLength));
+        this.backtestService.cases = lines
+            .map(item => toCase(item, paramsLength));
+
+        this.router.navigate([ 'list' ], {
+            relativeTo: this.route,
+            queryParamsHandling: 'merge',
+        });
     }
 }

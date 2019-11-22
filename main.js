@@ -1,17 +1,23 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, screen } = require('electron');
+
+// app.commandLine.appendSwitch('--enable-features', 'OverlayScrollbar');
 
 let win;
 
+// scrollBounce: true,
 function createWindow() {
+    const electronScreen = screen;
+    const size = electronScreen.getPrimaryDisplay().workAreaSize;
     // Create the browser window.
     win = new BrowserWindow({
-        width: 1280,
-        height: 720,
+        width: size.width,
+        height: size.height,
         backgroundColor: '#f0f0f0',
         icon: `file://${__dirname}/dist/backtest-converter/favicon.ico`,
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: true,
+            blinkFeatures: 'OverlayScrollbars'
         },
     });
 

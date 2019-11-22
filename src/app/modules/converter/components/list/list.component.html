@@ -1,5 +1,20 @@
-<app-card>
-    <table mat-table [dataSource]="rows" class="mat-elevation-z8">
+<div class="page-title-bar">
+    <app-title class="page-title mr-auto">
+        Проходы бэктестов
+    </app-title>
+    <app-buttons>
+        <button
+            type="button"
+            color="primary"
+            mat-raised-button
+            routerLink="..">
+            Назад
+        </button>
+    </app-buttons>
+</div>
+
+<app-card  class="p-0">
+    <table mat-table [dataSource]="rows" class="table mb-2">
 
         <ng-container matColumnDef="number">
             <th mat-header-cell *matHeaderCellDef>Проход</th>
@@ -45,12 +60,21 @@
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
     </table>
 
-    <mat-paginator
-        [length]="pagination.count"
-        [pageIndex]="pagination.pageIndex"
-        [pageSize]="pagination.pageSize"
-        [pageSizeOptions]="pagination.options"
-        (page)="onPageChange($event)">
-    </mat-paginator>
+<!--    <mat-paginator-->
+<!--        [length]="pagination.count"-->
+<!--        [pageIndex]="pagination.pageIndex"-->
+<!--        [pageSize]="pagination.pageSize"-->
+<!--        [pageSizeOptions]="pagination.options"-->
+<!--        (page)="onPageChange($event)">-->
+<!--    </mat-paginator>-->
 </app-card>
-
+<div style="height: 900px;"></div>
+<app-buttons>
+    <button
+        type="button"
+        color="primary"
+        mat-raised-button
+        routerLink="..">
+        Назад
+    </button>
+</app-buttons>

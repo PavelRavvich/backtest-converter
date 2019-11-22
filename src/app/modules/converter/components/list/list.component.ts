@@ -39,11 +39,11 @@ export class ListComponent implements OnInit {
     };
 
     constructor(
-        private readonly backtest: BacktestService
+        private readonly backtestService: BacktestService
     ) {}
 
     public ngOnInit() {
-        this.rows = this.backtest.cases;
+        this.rows = this.backtestService.cases;
     }
 
     public onPageChange(event: PageEvent): void {

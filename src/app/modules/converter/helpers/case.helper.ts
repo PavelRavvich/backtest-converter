@@ -2,7 +2,6 @@ import { ICase } from '../interfaces';
 
 export function toCase(data: string, paramsLength: number): ICase {
     const item = data.split('\t');
-    debugger
     return {
         number: +item[0],
         profit: +item[1],
