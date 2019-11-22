@@ -29,6 +29,9 @@ import {
     BreadcrumbsComponent,
 } from './components';
 
+// Directives
+import { InputMaskDirective } from './directives';
+
 
 @NgModule({
     declarations: [
@@ -36,6 +39,7 @@ import {
         CardComponent,
         TitleComponent,
         ButtonsComponent,
+        InputMaskDirective,
         BreadcrumbsComponent,
     ],
     imports: [
@@ -60,6 +64,7 @@ import {
         CardComponent,
         TitleComponent,
         ButtonsComponent,
+        InputMaskDirective,
         BreadcrumbsComponent,
         MatIconModule,
         MatListModule,

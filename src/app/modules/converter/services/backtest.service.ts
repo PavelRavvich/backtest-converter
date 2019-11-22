@@ -1,6 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+
+// Interfaces
+import { ICase } from '../interfaces';
 
 @Injectable()
 export class BacktestService {
-    public data: any;
+    public cases: ICase[];
 }

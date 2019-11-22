@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material';
 
+// Services
+import { BacktestService } from '../../services';
+
+// Interfaces
+import { ICase } from '../../interfaces';
+
+// List cases
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
@@ -9,7 +16,7 @@ import { PageEvent } from '@angular/material';
 export class ListComponent implements OnInit {
 
     // Table rows
-    public rows = [];
+    public rows: ICase[] = [];
 
     // Displayed columns
     public columns = [
@@ -25,16 +32,18 @@ export class ListComponent implements OnInit {
 
     // Pagination
     public readonly pagination = {
-        options: [ 5, 10, 25, 100 ],
+        options: [ 100, 250, 500, 1000 ],
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: 100,
         count: 0,
     };
 
-    constructor() {
-    }
+    constructor(
+        private readonly backtest: BacktestService
+    ) {}
 
-    ngOnInit() {
+    public ngOnInit() {
+        this.rows = this.backtest.cases;
     }
 
     public onPageChange(event: PageEvent): void {

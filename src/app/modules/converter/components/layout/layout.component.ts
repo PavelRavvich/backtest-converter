@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import {
@@ -15,7 +15,7 @@ import { BacktestService } from '../../services';
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
 
     constructor(
         private readonly router: Router,
@@ -34,9 +34,6 @@ export class LayoutComponent implements OnInit {
 
     // Is route 'converter'
     public isBaseRoute: boolean;
-
-    public ngOnInit(): void {
-    }
 
     // Update flag by route
     private updateRoute(): void {
