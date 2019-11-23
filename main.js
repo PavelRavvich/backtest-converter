@@ -12,8 +12,6 @@ function createWindow() {
     win = new BrowserWindow({
         width: size.width,
         height: size.height,
-        backgroundColor: '#f0f0f0',
-        icon: `file://${__dirname}/dist/backtest-converter/favicon.ico`,
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: true,
@@ -24,8 +22,8 @@ function createWindow() {
     win.loadURL(`file://${__dirname}/dist/backtest-converter/index.html`);
 
 
-    //// uncomment below to open the DevTools.
-    win.webContents.openDevTools();
+    // uncomment below to open the DevTools.
+    // win.webContents.openDevTools();
 
     // Event when the window is closed.
     win.on('closed', function () {
