@@ -13,8 +13,8 @@
     </app-buttons>
 </div>
 
-<app-card  class="p-0">
-    <table mat-table [dataSource]="rows" class="table mb-2">
+<app-card>
+    <table mat-table [dataSource]="rows" class="tb">
 
         <ng-container matColumnDef="number">
             <th mat-header-cell *matHeaderCellDef>Проход</th>
@@ -61,6 +61,7 @@
     </table>
 
     <mat-paginator
+        class="mb-2"
         [length]="pagination.count"
         [pageIndex]="pagination.pageIndex"
         [pageSize]="pagination.pageSize"
