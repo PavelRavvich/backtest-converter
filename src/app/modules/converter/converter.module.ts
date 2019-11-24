@@ -2,32 +2,36 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { ConverterRoutingModule } from './converter-routing.module';
 
 // Components
 import {
     ListComponent,
+    FormComponent,
     LayoutComponent,
 } from './components';
-import { FormComponent } from './components/form/form.component';
 
 // Services
-import { BacktestService } from './services';
+import {
+    TableService,
+    BacktestService,
+} from './services';
 
 @NgModule({
     declarations: [
+        FormComponent,
         ListComponent,
         LayoutComponent,
-        FormComponent,
     ],
     imports: [
         SharedModule,
         CommonModule,
-        ConverterRoutingModule,
         ReactiveFormsModule,
+        ConverterRoutingModule,
     ],
     providers: [
+        TableService,
         BacktestService,
     ]
 })

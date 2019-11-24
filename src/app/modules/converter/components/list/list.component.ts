@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material';
 
 // Services
-import { BacktestService } from '../../services';
+import {
+    TableService,
+    BacktestService,
+} from '../../services';
 
 // Interfaces
 import { ICase } from '../../interfaces';
@@ -19,36 +22,40 @@ export class ListComponent implements OnInit {
     public rows: ICase[] = [];
 
     // Displayed columns
-    public columns = [
-        'number',
-        'profitToDropDown',
-        'profit',
-        'value',
-        'profitable',
-        'mathExpectation',
-        'dropDownCurrency',
-        'dropDownPercent',
-        'params',
-    ];
+    public columns = [];
 
     // Pagination
     public readonly pagination = {
-        options: [ 100, 250, 500, 1000 ],
+        options: [ 20, 50, 100 ],
         pageIndex: 0,
-        pageSize: 100,
-        count: 0,
+        pageSize: 20,
+        total: 0,
     };
 
     constructor(
-        private readonly backtestService: BacktestService
+        private readonly tableService: TableService,
+        private readonly backtestService: BacktestService,
     ) {}
 
     public ngOnInit() {
-        this.rows = this.backtestService.cases;
+        this.loadPage();
+    }
+
+    private loadPage(): void {
+        this.columns = this.tableService.getColumns();
+
+        const data = this.backtestService.getList({
+            limit: this.pagination.pageSize,
+            offset: this.pagination.pageIndex * this.pagination.pageSize,
+        });
+
+        this.rows = data.items;
+        this.pagination.total = data.total;
     }
 
     public onPageChange(event: PageEvent): void {
         this.pagination.pageIndex = event.pageIndex;
         this.pagination.pageSize = event.pageSize;
+        this.loadPage();
     }
 }

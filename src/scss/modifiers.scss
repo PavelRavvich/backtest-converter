@@ -51,6 +51,9 @@
 .mb20 {
   margin-bottom: 20px !important;
 }
+.mb24 {
+    margin-bottom: 24px;
+}
 .ml20 {
   margin-left: 20px;
 }
@@ -638,8 +641,6 @@ app-buttons {
   }
 }
 
-// TODO: найдете способ как сделать [readonly] mat-slide-toggle и mat-checkbox
-// исправте это недоразумение
 .mat-slide-toggle[readonly],
 .mat-checkbox[readonly] {
   pointer-events: none;

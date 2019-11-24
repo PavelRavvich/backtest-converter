@@ -13,6 +13,7 @@ import {
     MatDialogModule,
     MatButtonModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatProgressBarModule,
@@ -27,6 +28,7 @@ import {
     TitleComponent,
     ButtonsComponent,
     BreadcrumbsComponent,
+    LoadingOverlayComponent,
 } from './components';
 
 // Directives
@@ -41,6 +43,7 @@ import { InputMaskDirective } from './directives';
         ButtonsComponent,
         InputMaskDirective,
         BreadcrumbsComponent,
+        LoadingOverlayComponent,
     ],
     imports: [
         CommonModule,
@@ -53,6 +56,7 @@ import { InputMaskDirective } from './directives';
         MatDialogModule,
         MatButtonModule,
         MatSelectModule,
+        MatCheckboxModule,
         MatFormFieldModule,
         MatPaginatorModule,
         ReactiveFormsModule,
@@ -66,6 +70,7 @@ import { InputMaskDirective } from './directives';
         ButtonsComponent,
         InputMaskDirective,
         BreadcrumbsComponent,
+        LoadingOverlayComponent,
         MatIconModule,
         MatListModule,
         MatInputModule,
@@ -73,6 +78,7 @@ import { InputMaskDirective } from './directives';
         MatDialogModule,
         MatButtonModule,
         MatSelectModule,
+        MatCheckboxModule,
         MatPaginatorModule,
         MatFormFieldModule,
         MatProgressBarModule,

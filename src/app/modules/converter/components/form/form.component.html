@@ -2,6 +2,7 @@
     <app-title class="page-title mr-auto">
         Загрузка тестов
     </app-title>
+
     <app-buttons>
         <button
             [disabled]="form.pristine || form.invalid"
@@ -13,9 +14,14 @@
         </button>
     </app-buttons>
 </div>
+
 <app-card [formGroup]="form">
     <div class="wrapper">
         <app-row>
+            <mat-checkbox formControlName="params" class="checkbox-row w230 mb24 mt4">
+                <span class="checkbox-title">Параметры</span>
+            </mat-checkbox>
+
             <mat-form-field appearance="outline" class="w230">
                 <mat-label>Количество параметров</mat-label>
                 <input
@@ -25,7 +31,22 @@
                     [appInputMask]="{ alias: 'integer' }">
             </mat-form-field>
         </app-row>
+
         <app-row>
+            <mat-checkbox formControlName="profitable" class="checkbox-row w230">
+                <span class="checkbox-title">Прибыльность</span>
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="mathExpectation" class="checkbox-row w230">
+                <span class="checkbox-title">Матожидание</span>
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="dropDownPercent" class="checkbox-row w230">
+                <span class="checkbox-title">Просадка %</span>
+            </mat-checkbox>
+        </app-row>
+
+        <app-row class="mt20">
             <mat-form-field class="w-full textarea" appearance="outline">
                 <mat-label>Тесты</mat-label>
                 <textarea
@@ -41,3 +62,4 @@
     </div>
 </app-card>
 
+<app-loading-overlay *ngIf="isProcess"></app-loading-overlay>
