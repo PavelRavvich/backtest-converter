@@ -1,10 +1,11 @@
 export interface ICase {
     params: any;
-    number: number;
-    profit: number;
-    value: number;
-    profitable: number;
-    mathExpectation: number;
-    dropDownCurrency: number;
-    dropDownPercent: number;
+    number: string;
+    profit: string;
+    value: string;
+    profitable: string;
+    mathExpectation: string;
+    dropDownCurrency: string;
+    dropDownPercent: string;
+    profitToDropDown: number;
 }

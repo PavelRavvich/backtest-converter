@@ -21,6 +21,7 @@ export class ListComponent implements OnInit {
     // Displayed columns
     public columns = [
         'number',
+        'profitToDropDown',
         'profit',
         'value',
         'profitable',

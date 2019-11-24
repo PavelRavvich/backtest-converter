@@ -47,11 +47,14 @@ export class FormComponent implements OnInit {
             content,
             paramsLength,
         } = this.form.value;
+
         this.form.get('content').reset();
 
-        const lines = content.split('\n');
-        this.backtestService.cases = lines
-            .map(item => toCase(item, paramsLength));
+        this.backtestService.cases = content
+            .trim()
+            .split('\n')
+            .map(item => toCase(item, paramsLength))
+            .sort((a, b) => b.profitToDropDown - a.profitToDropDown);
 
         this.router.navigate([ 'list' ], {
             relativeTo: this.route,

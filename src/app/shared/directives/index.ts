@@ -1,1 +1,1 @@
-export { InputMaskDirective } from './input-mask.directive';
+export { InputMaskDirective } from './input-mask/input-mask.directive';
