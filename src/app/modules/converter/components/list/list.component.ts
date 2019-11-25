@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 
 // Services
 import {
@@ -33,6 +34,8 @@ export class ListComponent implements OnInit {
     };
 
     constructor(
+        private readonly router: Router,
+        private readonly route: ActivatedRoute,
         private readonly tableService: TableService,
         private readonly backtestService: BacktestService,
     ) {}
@@ -57,5 +60,13 @@ export class ListComponent implements OnInit {
         this.pagination.pageIndex = event.pageIndex;
         this.pagination.pageSize = event.pageSize;
         this.loadPage();
+    }
+
+    public back(): void {
+        this.tableService.resetColumns();
+        this.router.navigate([ '..' ], {
+            relativeTo: this.route,
+            queryParamsHandling: 'merge',
+        });
     }
 }

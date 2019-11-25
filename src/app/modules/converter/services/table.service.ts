@@ -4,18 +4,24 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class TableService {
 
+    private readonly defaultColumns = [
+        'number',
+        'value',
+        'profitToDropDown',
+        'profit',
+        'dropDownCurrency',
+    ];
+
     private config: any = {
-        columns: [
-            'number',
-            'value',
-            'profitToDropDown',
-            'profit',
-            'dropDownCurrency',
-        ]
+        columns: []
     };
 
     public addColumns(columns: string[]): void {
-        this.config.columns.push(... columns);
+        this.config.columns = [ ... this.defaultColumns, ...columns ];
+    }
+
+    public resetColumns(): void {
+        this.config.columns = this.defaultColumns;
     }
 
     public getColumns(): string[] {
