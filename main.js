@@ -1,8 +1,17 @@
 const { app, BrowserWindow, screen } = require('electron');
-
-// app.commandLine.appendSwitch('--enable-features', 'OverlayScrollbar');
+const contextMenu = require('electron-context-menu');
 
 let win;
+
+contextMenu({
+    prepend: (defaultActions, params, browserWindow) => [
+        {
+            label: 'Rainbow',
+            // Only show it when right-clicking images
+            visible: params.mediaType === 'image'
+        },
+    ]
+});
 
 // scrollBounce: true,
 function createWindow() {
@@ -22,13 +31,9 @@ function createWindow() {
 
     win.loadURL(`file://${__dirname}/dist/backtest-converter/index.html`);
 
-
-    // uncomment below to open the DevTools.
-    // win.webContents.openDevTools();
-
     // Event when the window is closed.
     win.on('closed', function () {
-        win = null
+        win = null;
     });
 }
 
