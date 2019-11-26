@@ -28,7 +28,7 @@
                 <input
                     matInput
                     required
-                    formControlName="valueNumber"
+                    formControlName="value"
                     [appInputMask]="{ alias: 'numeric', digits: 2 }">
             </mat-form-field>
         </div>
@@ -36,9 +36,9 @@
         <div *ngIf="form.get('filterType').value && form.get('filterType').value === FilterType.Boolean">
             <mat-form-field appearance="outline" class="w230">
                 <mat-label>Значение</mat-label>
-                <mat-select required formControlName="valueBoolean">
-                    <mat-option [value]="true">Удтверждение</mat-option>
-                    <mat-option [value]="false">Отрицание</mat-option>
+                <mat-select required formControlName="value">
+                    <mat-option [value]="true">True</mat-option>
+                    <mat-option [value]="false">False</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
@@ -56,4 +56,3 @@
 
     </app-row>
 </app-card>
-{{form.valid}}

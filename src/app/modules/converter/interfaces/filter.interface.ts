@@ -3,7 +3,7 @@ import { ComparisonType, FilterType } from '../enums';
 // Filter output
 export interface IFilter {
 
-    // Using or not current filter
+    // Using or not current filter-row
     isActive: boolean;
 
     // Param name for collection
@@ -12,7 +12,7 @@ export interface IFilter {
     // Filter type numeric or boolean
     filterType: FilterType;
 
-    // Comparision type for different filter types
+    // Comparision type for different filter-row types
     compareType: ComparisonType;
 
     // Value for comparision

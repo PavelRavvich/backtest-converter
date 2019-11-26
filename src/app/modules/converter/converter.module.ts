@@ -10,7 +10,7 @@ import {
     ListComponent,
     FormComponent,
     LayoutComponent,
-    FilterComponent,
+    FilterRowComponent,
 } from './components';
 
 // Services
@@ -24,7 +24,7 @@ import {
         FormComponent,
         ListComponent,
         LayoutComponent,
-        FilterComponent,
+        FilterRowComponent,
     ],
     imports: [
         SharedModule,
