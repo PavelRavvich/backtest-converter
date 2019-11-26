@@ -6,7 +6,7 @@ import { IListRequest } from '@shared/interfaces';
 
 @Injectable()
 export class BacktestService {
-    private store: ICase[];
+    private store: ICase[] = [];
 
     public setStore(store: ICase[]): void {
         this.store = store;

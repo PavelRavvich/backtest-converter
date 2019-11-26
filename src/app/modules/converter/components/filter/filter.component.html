@@ -1,0 +1,59 @@
+<app-card [formGroup]="form">
+    <app-row>
+        <mat-form-field class="w230" appearance="outline">
+            <mat-label>Название поля</mat-label>
+            <input matInput required formControlName="paramSn">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w230">
+            <mat-label>Тип фильтра</mat-label>
+            <mat-select required formControlName="filterType">
+                <mat-option [value]="FilterType.Numeric">Числовой</mat-option>
+                <mat-option [value]="FilterType.Boolean">Логический</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div *ngIf=" form.get('filterType').value && form.get('filterType').value !== FilterType.Boolean">
+            <mat-form-field class="w230 mr15" appearance="outline">
+                <mat-label>Тип сравнения</mat-label>
+                <mat-select required formControlName="compareType">
+                    <mat-option [value]="ComparisonType.More">Больше</mat-option>
+                    <mat-option [value]="ComparisonType.Less">Меньше</mat-option>
+                    <mat-option [value]="ComparisonType.Equal">Равно</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w230 ml10" appearance="outline">
+                <mat-label>Значение</mat-label>
+                <input
+                    matInput
+                    required
+                    formControlName="valueNumber"
+                    [appInputMask]="{ alias: 'numeric', digits: 2 }">
+            </mat-form-field>
+        </div>
+
+        <div *ngIf="form.get('filterType').value && form.get('filterType').value === FilterType.Boolean">
+            <mat-form-field appearance="outline" class="w230">
+                <mat-label>Значение</mat-label>
+                <mat-select required formControlName="valueBoolean">
+                    <mat-option [value]="true">Удтверждение</mat-option>
+                    <mat-option [value]="false">Отрицание</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="ml20">
+            <button class="item__action" mat-icon-button (click)="power()">
+                <mat-icon [color]="form.disabled ? 'warn' : 'primary'">
+                    {{ form.disabled ? 'power_off' : 'power' }}
+                </mat-icon>
+            </button>
+            <button class="item__action" mat-icon-button (click)="removeChange.emit()">
+                <mat-icon color="warn">delete_forever</mat-icon>
+            </button>
+        </div>
+
+    </app-row>
+</app-card>
+{{form.valid}}

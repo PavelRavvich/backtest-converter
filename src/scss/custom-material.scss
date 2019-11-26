@@ -423,7 +423,7 @@ mat-form-field .mat-form-field {
   }
   .mat-form-field-label {
     top: 24px;
-    color: #8298B2;
+    color: #000000;
   }
   mat-icon,
   .mat-select-arrow {
@@ -433,7 +433,7 @@ mat-form-field .mat-form-field {
     color: #0C2340;
   }
   .mat-input-element:disabled {
-    color: #A7BDD6;
+    color: #000000;
   }
   .mat-form-field-flex {
     padding: 0 16px;
@@ -485,12 +485,10 @@ mat-form-field .mat-form-field {
 }
 .mat-form-field-appearance-outline.mat-form-field-disabled {
   .mat-form-field-label {
-    color: #A7BDD6;
+    color: #000000;
   }
   .mat-form-field-outline {
     color: transparent;
-    // background: #F4F6FB;
-    // https://jira.globus-ltd.com/browse/CHEMEXSOL-3772
     background: #e8e8e8;
     border-radius: 3px;
   }

@@ -25,6 +25,8 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@mdi/font": "^4.6.95",
+    "css-element-queries": "^1.2.2",
     "electron-context-menu": "^0.15.1",
     "hammerjs": "^2.0.8",
     "inputmask": "^4.0.9",
