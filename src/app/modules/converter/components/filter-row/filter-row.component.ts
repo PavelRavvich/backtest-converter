@@ -45,6 +45,7 @@ export class FilterRowComponent implements OnInit {
     public ngOnInit(): void {
         this.createForm();
         this.subscribeForm();
+        this.subscribeEmitter();
     }
 
     private createForm(): void {
@@ -55,24 +56,6 @@ export class FilterRowComponent implements OnInit {
             value: new FormControl(null),
         });
 
-        this.form
-            .valueChanges
-            .subscribe(() => {
-                const {
-                    value,
-                    paramSn,
-                    filterType,
-                    compareType,
-                } = this.form.getRawValue();
-
-                this.formChange.emit({
-                    value,
-                    paramSn,
-                    filterType,
-                    compareType,
-                    isActive: !this.form.disabled && !this.form.invalid,
-                });
-            });
     }
 
     private subscribeForm(): void {
@@ -100,7 +83,28 @@ export class FilterRowComponent implements OnInit {
             );
     }
 
-    public power(): void {
+    private subscribeEmitter(): void {
+        this.form
+            .valueChanges
+            .subscribe(() => {
+                const {
+                    value,
+                    paramSn,
+                    filterType,
+                    compareType,
+                } = this.form.getRawValue();
+
+                this.formChange.emit({
+                    value,
+                    paramSn,
+                    filterType,
+                    compareType,
+                    isActive: !this.form.disabled && !this.form.invalid,
+                });
+            });
+    }
+
+    public powerSwitch(): void {
         const {
             value,
             paramSn,
