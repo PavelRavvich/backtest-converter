@@ -1,4 +1,4 @@
-export enum FilterType {
+export enum FilterParamType {
     Numeric = 'numeric',
     Boolean = 'boolean',
 }

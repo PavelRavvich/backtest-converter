@@ -1,2 +1,2 @@
-export { BacktestService } from './backtest.service';
+export { StoreService } from './store.service';
 export { TableService } from './table.service';

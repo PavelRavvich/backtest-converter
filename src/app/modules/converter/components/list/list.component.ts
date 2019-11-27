@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Services
 import {
     TableService,
-    BacktestService,
+    StoreService,
 } from '../../services';
 
 // Interfaces
-import { ICase } from '../../interfaces';
+import {
+    IBacktest,
+    IBacktestList,
+    IFilterParamConfig,
+    IFilterColumnConfig,
+} from '../../interfaces';
+
+// Helpers
+import { randomUUID } from '@shared/helpers';
+import { toFilterParam } from '../../helpers';
 
 // List cases
 @Component({
@@ -19,8 +29,47 @@ import { ICase } from '../../interfaces';
 })
 export class ListComponent implements OnInit {
 
+    // Params filter list
+    public filtersParam: IFilterParamConfig[] = [];
+
+    // Columns filter list
+    public filtersColumn: IFilterColumnConfig[] = [
+        {
+            key: 'profit',
+            form: new FormGroup({
+                name: new FormControl('Прибыль'),
+                value: new FormControl(null),
+                compareType: new FormControl(null),
+            })
+        },
+        {
+            key: 'dropDownCurrency',
+            form: new FormGroup({
+                name: new FormControl('Просадка'),
+                value: new FormControl(null),
+                compareType: new FormControl(null),
+            }),
+        },
+        {
+            key: 'profitToDropDown',
+            form: new FormGroup({
+                name: new FormControl('Прибыль/Просадка'),
+                value: new FormControl(null),
+                compareType: new FormControl(null),
+            })
+        },
+        {
+            key: 'value',
+            form: new FormGroup({
+                name: new FormControl('Сделок'),
+                value: new FormControl(null),
+                compareType: new FormControl(null),
+            })
+        },
+    ];
+
     // Table rows
-    public rows: ICase[] = [];
+    public rows: IBacktest[] = [];
 
     // Displayed columns
     public columns = [];
@@ -37,29 +86,56 @@ export class ListComponent implements OnInit {
         private readonly router: Router,
         private readonly route: ActivatedRoute,
         private readonly tableService: TableService,
-        private readonly backtestService: BacktestService,
-    ) {}
+        private readonly storeService: StoreService,
+    ) {
+        this.columns = this.tableService.getColumns();
+    }
 
     public ngOnInit() {
         this.loadPage();
     }
 
     private loadPage(): void {
-        this.columns = this.tableService.getColumns();
-
-        const data = this.backtestService.getList({
+        this.storeService.getList({
             limit: this.pagination.pageSize,
             offset: this.pagination.pageIndex * this.pagination.pageSize,
-        });
-
-        this.rows = data.items;
-        this.pagination.total = data.total;
+        })
+            .subscribe(
+                (data: IBacktestList) => {
+                    this.rows = data.items;
+                    this.pagination.total = data.total;
+                });
     }
 
     public onPageChange(event: PageEvent): void {
         this.pagination.pageIndex = event.pageIndex;
         this.pagination.pageSize = event.pageSize;
         this.loadPage();
+    }
+
+    // Add new filter to filter list
+    public add(): void {
+        this.filtersParam.push({
+            id: randomUUID(),
+            form: new FormGroup({
+                paramSn: new FormControl(null),
+                compareType: new FormControl(null),
+                filterType: new FormControl(null),
+                value: new FormControl(null),
+            })
+        });
+    }
+
+    // Apply param filters
+    public apply(): void {
+        const filtersParams = this.filtersParam.map(item => toFilterParam(item.id, item.form));
+        const filtersColumn = [];
+        debugger
+    }
+
+    // Remove filter param
+    public removeFilterParam(id: string): void {
+        this.filtersParam = this.filtersParam.filter(item => id !== item.id);
     }
 
     public back(): void {

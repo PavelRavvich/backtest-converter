@@ -25,6 +25,8 @@ export class TableService {
     }
 
     public getColumns(): string[] {
-        return this.config.columns;
+        return this.config.columns.length
+            ? this.config.columns
+            : this.defaultColumns;
     }
 }

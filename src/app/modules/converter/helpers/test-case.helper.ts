@@ -1,6 +1,6 @@
-import { ICase } from '../interfaces';
+import { IBacktest } from '../interfaces';
 
-export function toCase(data: string, paramsLength: number): ICase {
+export function toTestCase(data: string, paramsLength: number): IBacktest {
     const item = data.split('\t');
     return {
         number: item[0],

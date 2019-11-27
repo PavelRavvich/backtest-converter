@@ -44,7 +44,10 @@
         </div>
 
         <div class="ml20">
-            <button class="item__action" mat-icon-button (click)="powerSwitch()">
+            <button
+                mat-icon-button
+                class="item__action"
+                (click)="form.disabled ? form.enable() : form.disable()">
                 <mat-icon [color]="form.disabled ? 'warn' : 'primary'">
                     {{ form.disabled ? 'power_off' : 'power' }}
                 </mat-icon>

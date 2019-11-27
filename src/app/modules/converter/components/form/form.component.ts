@@ -13,13 +13,13 @@ import {
 } from '@angular/router';
 
 // Helpers
-import { toCase} from '../../helpers';
+import { toTestCase} from '../../helpers';
 import { subControl } from '@shared/helpers';
 
 // Services
 import {
     TableService,
-    BacktestService,
+    StoreService,
 } from '../../services';
 
 // Form for collecting backtest data from MT4
@@ -34,7 +34,7 @@ export class FormComponent implements OnInit {
         private readonly router: Router,
         private readonly route: ActivatedRoute,
         private readonly tableService: TableService,
-        private readonly backtestService: BacktestService,
+        private readonly backtestService: StoreService,
     ) { }
 
     // Data conversation process
@@ -93,7 +93,7 @@ export class FormComponent implements OnInit {
             content
                 .trim()
                 .split('\n')
-                .map(item => toCase(item, paramsLength))
+                .map(item => toTestCase(item, paramsLength))
                 .sort((a, b) => b.profitToDropDown - a.profitToDropDown)
         );
     }

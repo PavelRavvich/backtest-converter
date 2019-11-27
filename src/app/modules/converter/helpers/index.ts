@@ -1,4 +1,7 @@
 export {
-    toCase,
     toParams,
-} from './case.helper';
+    toTestCase,
+} from './test-case.helper';
+export {
+    toFilterParam,
+} from './filter.helper';

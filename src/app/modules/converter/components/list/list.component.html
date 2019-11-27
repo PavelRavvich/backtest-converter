@@ -13,9 +13,53 @@
     </app-buttons>
 </div>
 
-<app-row>
-    <app-filter></app-filter>
-</app-row>
+<div>
+    <app-title class="page-title mb20">
+        Фильтры по колонкам
+    </app-title>
+
+    <div *ngFor="let filter of filtersColumn">
+        <app-filter-column
+            [form]="filter.form"
+        ></app-filter-column>
+    </div>
+</div>
+
+<div>
+    <app-title class="page-title mb20">
+        Фильтры по параметрам
+    </app-title>
+
+    <div *ngFor="let filter of filtersParam">
+        <app-filter-param
+            [id]="filter.id"
+            [form]="filter.form"
+            (removeChange)="removeFilterParam($event)"
+        ></app-filter-param>
+    </div>
+
+    <div class="page-title-bar">
+        <div class="mr-auto">
+            <button
+                type="button"
+                color="primary"
+                mat-raised-button
+                (click)="add()">
+                Добавить
+            </button>
+        </div>
+
+        <app-buttons>
+            <button
+                type="button"
+                color="primary"
+                mat-raised-button
+                (click)="apply()">
+                Применить
+            </button>
+        </app-buttons>
+    </div>
+</div>
 
 <app-card>
     <table mat-table [dataSource]="rows" class="tb">

@@ -10,23 +10,23 @@ import {
     ListComponent,
     FormComponent,
     LayoutComponent,
-    FilterRowComponent,
+    FilterParamComponent,
 } from './components';
 
 // Services
 import {
     TableService,
-    BacktestService,
+    StoreService,
 } from './services';
-import { FilterComponent } from './components/filter/filter.component';
+import { FilterColumnComponent } from './components/filter-column/filter-column.component';
 
 @NgModule({
     declarations: [
         FormComponent,
         ListComponent,
         LayoutComponent,
-        FilterRowComponent,
-        FilterComponent,
+        FilterParamComponent,
+        FilterColumnComponent,
     ],
     imports: [
         SharedModule,
@@ -36,7 +36,7 @@ import { FilterComponent } from './components/filter/filter.component';
     ],
     providers: [
         TableService,
-        BacktestService,
+        StoreService,
     ]
 })
 export class ConverterModule {
