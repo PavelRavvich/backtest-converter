@@ -18,6 +18,7 @@ import {
     TableService,
     BacktestService,
 } from './services';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import {
         ListComponent,
         LayoutComponent,
         FilterRowComponent,
+        FilterComponent,
     ],
     imports: [
         SharedModule,

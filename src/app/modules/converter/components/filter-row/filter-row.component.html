@@ -50,10 +50,9 @@
                 </mat-icon>
             </button>
 
-            <button class="item__action" mat-icon-button (click)="removeChange.emit()">
+            <button class="item__action" mat-icon-button (click)="removeChange.emit(id)">
                 <mat-icon color="warn">delete_forever</mat-icon>
             </button>
         </div>
-
     </app-row>
 </app-card>

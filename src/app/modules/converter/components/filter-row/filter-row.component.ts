@@ -1,4 +1,5 @@
 import {
+    Input,
     Output,
     OnInit,
     Component,
@@ -27,11 +28,14 @@ import { IFilter } from '../../interfaces';
 })
 export class FilterRowComponent implements OnInit {
 
+    // Filter id
+    @Input() id: string;
+
     // Notification about state change
     @Output() public formChange = new EventEmitter<IFilter>();
 
     // Notification about remove this filter-row instance
-    @Output() public removeChange = new EventEmitter<void>();
+    @Output() public removeChange = new EventEmitter<string>();
 
     // Filter data types enum
     public FilterType = FilterType;
@@ -95,6 +99,7 @@ export class FilterRowComponent implements OnInit {
                 } = this.form.getRawValue();
 
                 this.formChange.emit({
+                    id: this.id,
                     value,
                     paramSn,
                     filterType,

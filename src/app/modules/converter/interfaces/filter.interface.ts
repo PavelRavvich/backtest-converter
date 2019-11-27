@@ -3,6 +3,9 @@ import { ComparisonType, FilterType } from '../enums';
 // Filter output
 export interface IFilter {
 
+    // Filter-row id
+    id: string;
+
     // Using or not current filter-row
     isActive: boolean;
 
