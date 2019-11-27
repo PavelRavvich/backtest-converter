@@ -6,11 +6,11 @@
     <app-buttons>
         <button
             [disabled]="form.pristine || form.invalid"
-            (click)="convert()"
+            (click)="load()"
             type="button"
             color="primary"
             mat-raised-button>
-            Конвертировать
+            Загрузить
         </button>
     </app-buttons>
 </div>
@@ -62,4 +62,4 @@
     </div>
 </app-card>
 
-<app-loading-overlay *ngIf="isProcess"></app-loading-overlay>
+<app-loading-overlay #loader *ngIf="isLoader"></app-loading-overlay>

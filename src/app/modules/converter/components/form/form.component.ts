@@ -11,9 +11,9 @@ import {
     Router,
     ActivatedRoute,
 } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 // Helpers
-import { toTestCase} from '../../helpers';
 import { subControl } from '@shared/helpers';
 
 // Services
@@ -22,11 +22,12 @@ import {
     StoreService,
 } from '../../services';
 
+
 // Form for collecting backtest data from MT4
 @Component({
     selector: 'app-form',
     templateUrl: './form.component.html',
-    styleUrls: ['./form.component.scss']
+    styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
 
@@ -38,7 +39,7 @@ export class FormComponent implements OnInit {
     ) { }
 
     // Data conversation process
-    public isProcess: boolean;
+    public isLoader = false;
 
     // Data form
     public form: FormGroup;
@@ -68,37 +69,29 @@ export class FormComponent implements OnInit {
         subControl(params, paramsLength);
     }
 
-    public convert(): void {
-        this.isProcess = true;
+    public load(): void {
+        this.isLoader = true;
 
-        this.setDataStore();
-        this.setDatatableConfig();
-
-        this.form.get('content').reset();
-        this.isProcess = false;
-
-        this.router.navigate([ 'list' ], {
-            relativeTo: this.route,
-            queryParamsHandling: 'merge',
-        });
-    }
-
-    private setDataStore(): void {
         const {
             content,
             paramsLength,
         } = this.form.value;
+        this.form.get('content').reset();
 
-        this.backtestService.setStore(
-            content
-                .trim()
-                .split('\n')
-                .map(item => toTestCase(item, paramsLength))
-                .sort((a, b) => b.profitToDropDown - a.profitToDropDown)
-        );
+        const fn = () => this.backtestService
+            .setStore(content, paramsLength)
+            .pipe(finalize(() => { this.isLoader = false; }))
+            .subscribe(() => {
+                this.configureDatatable();
+                this.router.navigate([ 'list' ], {
+                    relativeTo: this.route,
+                    queryParamsHandling: 'merge',
+                });
+            });
+        setTimeout(fn, 200);
     }
 
-    private setDatatableConfig() {
+    private configureDatatable() {
         const {
             params,
             profitable,

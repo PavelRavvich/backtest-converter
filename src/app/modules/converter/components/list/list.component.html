@@ -1,124 +1,127 @@
-<div class="page-title-bar">
-    <app-title class="page-title mr-auto">
-        Проходы бэктестов
-    </app-title>
-    <app-buttons>
-        <button
-            type="button"
-            color="primary"
-            mat-raised-button
-            routerLink="..">
-            Назад
-        </button>
-    </app-buttons>
-</div>
-
-<div>
-    <app-title class="page-title mb20">
-        Фильтры по колонкам
-    </app-title>
-
-    <div *ngFor="let filter of filtersColumn">
-        <app-filter-column
-            [form]="filter.form"
-        ></app-filter-column>
-    </div>
-</div>
-
-<div>
-    <app-title class="page-title mb20">
-        Фильтры по параметрам
-    </app-title>
-
-    <div *ngFor="let filter of filtersParam">
-        <app-filter-param
-            [id]="filter.id"
-            [form]="filter.form"
-            (removeChange)="removeFilterParam($event)"
-        ></app-filter-param>
-    </div>
-
+<div [hidden]="isLoading">
     <div class="page-title-bar">
-        <div class="mr-auto">
-            <button
-                type="button"
-                color="primary"
-                mat-raised-button
-                (click)="add()">
-                Добавить
-            </button>
-        </div>
-
+        <app-title class="page-title mr-auto">
+            Проходы бэктестов
+        </app-title>
         <app-buttons>
             <button
                 type="button"
                 color="primary"
                 mat-raised-button
-                (click)="apply()">
-                Применить
+                routerLink="..">
+                Назад
             </button>
         </app-buttons>
     </div>
+
+    <div>
+        <app-title class="page-title mb20">
+            Фильтры по колонкам
+        </app-title>
+
+        <div *ngFor="let filter of filtersColumn">
+            <app-filter-column
+                [form]="filter.form"
+            ></app-filter-column>
+        </div>
+    </div>
+
+    <div>
+        <app-title class="page-title mb20">
+            Фильтры по параметрам
+        </app-title>
+
+        <div *ngFor="let filter of filtersParam">
+            <app-filter-param
+                [id]="filter.id"
+                [form]="filter.form"
+                (removeChange)="removeFilterParam($event)"
+            ></app-filter-param>
+        </div>
+
+        <div class="page-title-bar">
+            <div class="mr-auto">
+                <button
+                    type="button"
+                    color="primary"
+                    mat-raised-button
+                    (click)="add()">
+                    Добавить
+                </button>
+            </div>
+
+            <app-buttons>
+                <button
+                    type="button"
+                    color="primary"
+                    mat-raised-button
+                    (click)="loadPage()">
+                    Применить
+                </button>
+            </app-buttons>
+        </div>
+    </div>
+
+    <app-card>
+        <table mat-table [dataSource]="rows" class="tb">
+
+            <ng-container matColumnDef="number">
+                <th mat-header-cell *matHeaderCellDef>Проход</th>
+                <td mat-cell *matCellDef="let item"> {{item.number}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="profitToDropDown">
+                <th mat-header-cell *matHeaderCellDef>Прибыль/Просадка</th>
+                <td mat-cell *matCellDef="let item"> {{item.profitToDropDown | number: '1.2-2'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="profit">
+                <th mat-header-cell *matHeaderCellDef>Прибыль</th>
+                <td mat-cell *matCellDef="let item"> {{item.profit}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef>Всего сделок</th>
+                <td mat-cell *matCellDef="let item"> {{item.value}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="profitable">
+                <th mat-header-cell *matHeaderCellDef>Прибыльность</th>
+                <td mat-cell *matCellDef="let item"> {{item.profitable}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="mathExpectation">
+                <th mat-header-cell *matHeaderCellDef>Матожидание</th>
+                <td mat-cell *matCellDef="let item"> {{item.mathExpectation}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dropDownCurrency">
+                <th mat-header-cell *matHeaderCellDef>Просадка $</th>
+                <td mat-cell *matCellDef="let item"> {{item.dropDownCurrency}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dropDownPercent">
+                <th mat-header-cell *matHeaderCellDef>Просадка %</th>
+                <td mat-cell *matCellDef="let item"> {{item.dropDownPercent}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="params">
+                <th mat-header-cell *matHeaderCellDef>Параметры</th>
+                <td mat-cell *matCellDef="let item"> {{item.params}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+        </table>
+
+        <mat-paginator
+            class="mb-2"
+            [length]="pagination.total"
+            [pageIndex]="pagination.pageIndex"
+            [pageSize]="pagination.pageSize"
+            [pageSizeOptions]="pagination.options"
+            (page)="onPageChange($event)">
+        </mat-paginator>
+    </app-card>
 </div>
-
-<app-card>
-    <table mat-table [dataSource]="rows" class="tb">
-
-        <ng-container matColumnDef="number">
-            <th mat-header-cell *matHeaderCellDef>Проход</th>
-            <td mat-cell *matCellDef="let item"> {{item.number}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="profitToDropDown">
-            <th mat-header-cell *matHeaderCellDef>Прибыль/Просадка</th>
-            <td mat-cell *matCellDef="let item"> {{item.profitToDropDown | number: '1.2-2'}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="profit">
-            <th mat-header-cell *matHeaderCellDef>Прибыль</th>
-            <td mat-cell *matCellDef="let item"> {{item.profit}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="value">
-            <th mat-header-cell *matHeaderCellDef>Всего сделок</th>
-            <td mat-cell *matCellDef="let item"> {{item.value}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="profitable">
-            <th mat-header-cell *matHeaderCellDef>Прибыльность</th>
-            <td mat-cell *matCellDef="let item"> {{item.profitable}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="mathExpectation">
-            <th mat-header-cell *matHeaderCellDef>Матожидание</th>
-            <td mat-cell *matCellDef="let item"> {{item.mathExpectation}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="dropDownCurrency">
-            <th mat-header-cell *matHeaderCellDef>Просадка $</th>
-            <td mat-cell *matCellDef="let item"> {{item.dropDownCurrency}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="dropDownPercent">
-            <th mat-header-cell *matHeaderCellDef>Просадка %</th>
-            <td mat-cell *matCellDef="let item"> {{item.dropDownPercent}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="params">
-            <th mat-header-cell *matHeaderCellDef>Параметры</th>
-            <td mat-cell *matCellDef="let item"> {{item.params}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-    </table>
-
-    <mat-paginator
-        class="mb-2"
-        [length]="pagination.total"
-        [pageIndex]="pagination.pageIndex"
-        [pageSize]="pagination.pageSize"
-        [pageSizeOptions]="pagination.options"
-        (page)="onPageChange($event)">
-    </mat-paginator>
-</app-card>
+<app-loading-overlay *ngIf="isLoading"></app-loading-overlay>

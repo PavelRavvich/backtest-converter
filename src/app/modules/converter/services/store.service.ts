@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject} from 'rxjs';
+import {Injectable, NgZone} from '@angular/core';
+import {Observable, of, ReplaySubject, Subscriber} from 'rxjs';
 
 // Interfaces
 import {
@@ -7,6 +7,9 @@ import {
     IBacktestList,
 } from '../interfaces';
 import { IListRequest } from '@shared/interfaces';
+
+// Helpers
+import { toTestCase } from '../helpers';
 
 const mock = {
     total: 1,
@@ -28,16 +31,28 @@ const mock = {
 @Injectable()
 export class StoreService {
 
-    // Back tests store
-    private readonly store = new ReplaySubject<IBacktest[]>(1);
+    private store: IBacktest[] = [];
 
-    public setStore(bactests: IBacktest[]): void {
-        this.store.next(bactests);
+    constructor(private readonly ngZone: NgZone) {}
+
+    public setStore(content: string, paramsLength: number): Observable<void> {
+        return new Observable<void>((observer) => {
+            this.store = this.ngZone.runOutsideAngular((): IBacktest[] => {
+                return content
+                    .trim()
+                    .split('\n')
+                    .map(item => toTestCase(item, paramsLength))
+                    .sort((a, b) => b.profitToDropDown - a.profitToDropDown);
+            });
+            observer.next();
+            observer.complete();
+        });
     }
 
     public getList(request: IListRequest): Observable<IBacktestList> {
-        return new Observable((obs) => {
-            obs.next(mock);
+        return of({
+            total: this.store.length,
+            items: this.store
         });
     }
 }

@@ -1,4 +1,5 @@
 import { PageEvent } from '@angular/material';
+import { finalize, take } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,8 +19,12 @@ import {
 } from '../../interfaces';
 
 // Helpers
+import {
+    toFilterParam,
+    toFilterColumn,
+} from '../../helpers';
 import { randomUUID } from '@shared/helpers';
-import { toFilterParam } from '../../helpers';
+
 
 // List cases
 @Component({
@@ -68,6 +73,9 @@ export class ListComponent implements OnInit {
         },
     ];
 
+    // View loader
+    public isLoading = false;
+
     // Table rows
     public rows: IBacktest[] = [];
 
@@ -96,15 +104,23 @@ export class ListComponent implements OnInit {
     }
 
     private loadPage(): void {
+        this.isLoading = true;
         this.storeService.getList({
             limit: this.pagination.pageSize,
             offset: this.pagination.pageIndex * this.pagination.pageSize,
+            params: this.filtersParam.map(item => toFilterParam(item.id, item.form)),
+            columns: this.filtersColumn.map(item => toFilterColumn(item.key, item.form)),
         })
+            .pipe(
+                take(1),
+                finalize(() => this.isLoading = false),
+            )
             .subscribe(
                 (data: IBacktestList) => {
                     this.rows = data.items;
                     this.pagination.total = data.total;
-                });
+                }
+            );
     }
 
     public onPageChange(event: PageEvent): void {
@@ -124,13 +140,6 @@ export class ListComponent implements OnInit {
                 value: new FormControl(null),
             })
         });
-    }
-
-    // Apply param filters
-    public apply(): void {
-        const filtersParams = this.filtersParam.map(item => toFilterParam(item.id, item.form));
-        const filtersColumn = [];
-        debugger
     }
 
     // Remove filter param

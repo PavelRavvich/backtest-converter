@@ -6,7 +6,7 @@ export interface IFilterParam {
     // Filter-row id
     id: string;
 
-    // Using or not current filter-param-list-param
+    // Using or not current filter
     isActive: boolean;
 
     // Param name for collection
@@ -15,7 +15,7 @@ export interface IFilterParam {
     // Filter type numeric or boolean
     filterType: FilterParamType;
 
-    // Comparision type for different filter-param-list-param-row types
+    // Comparision type
     compareType: ComparisonType;
 
     // Value for comparision
