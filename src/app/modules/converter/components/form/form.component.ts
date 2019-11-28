@@ -88,6 +88,7 @@ export class FormComponent implements OnInit {
                     queryParamsHandling: 'merge',
                 });
             });
+        // Crutch for view loader
         setTimeout(fn, 200);
     }
 

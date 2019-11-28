@@ -10,6 +10,8 @@ export function toFilterParam(id: string, form: FormGroup): IFilterParam {
     const {
         value,
         paramSn,
+        valueTo,
+        valueFrom,
         filterType,
         compareType,
     } = form.value;
@@ -18,6 +20,8 @@ export function toFilterParam(id: string, form: FormGroup): IFilterParam {
         id,
         value,
         paramSn,
+        valueTo,
+        valueFrom,
         filterType,
         compareType,
         isActive: form.valid,

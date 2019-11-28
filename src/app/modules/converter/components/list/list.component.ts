@@ -1,8 +1,17 @@
+import {
+    OnInit,
+    Component,
+} from '@angular/core';
+import {
+    Router,
+    ActivatedRoute,
+} from '@angular/router';
+import {
+    FormGroup,
+    FormControl,
+} from '@angular/forms';
+import { finalize } from 'rxjs/operators';
 import { PageEvent } from '@angular/material';
-import { finalize, take } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 
 // Services
 import {
@@ -35,39 +44,47 @@ import { randomUUID } from '@shared/helpers';
 export class ListComponent implements OnInit {
 
     // Params filter list
-    public filtersParam: IFilterParamConfig[] = [];
+    public readonly filtersParam: IFilterParamConfig[] = [];
 
     // Columns filter list
-    public filtersColumn: IFilterColumnConfig[] = [
+    public readonly filtersColumn: IFilterColumnConfig[] = [
+        {
+            key: 'value',
+            form: new FormGroup({
+                name: new FormControl('Всего сделок'),
+                value: new FormControl(null),
+                valueTo: new FormControl(null),
+                valueFrom: new FormControl(null),
+                compareType: new FormControl(null),
+            })
+        },
         {
             key: 'profit',
             form: new FormGroup({
-                name: new FormControl('Прибыль'),
+                name: new FormControl('Прибыль $'),
                 value: new FormControl(null),
+                valueTo: new FormControl(null),
+                valueFrom: new FormControl(null),
                 compareType: new FormControl(null),
             })
         },
         {
             key: 'dropDownCurrency',
             form: new FormGroup({
-                name: new FormControl('Просадка'),
+                name: new FormControl('Просадка $'),
                 value: new FormControl(null),
+                valueTo: new FormControl(null),
+                valueFrom: new FormControl(null),
                 compareType: new FormControl(null),
             }),
         },
         {
             key: 'profitToDropDown',
             form: new FormGroup({
-                name: new FormControl('Прибыль/Просадка'),
+                name: new FormControl('Прибыль/Просадка $'),
                 value: new FormControl(null),
-                compareType: new FormControl(null),
-            })
-        },
-        {
-            key: 'value',
-            form: new FormGroup({
-                name: new FormControl('Сделок'),
-                value: new FormControl(null),
+                valueTo: new FormControl(null),
+                valueFrom: new FormControl(null),
                 compareType: new FormControl(null),
             })
         },
@@ -111,10 +128,7 @@ export class ListComponent implements OnInit {
             params: this.filtersParam.map(item => toFilterParam(item.id, item.form)),
             columns: this.filtersColumn.map(item => toFilterColumn(item.key, item.form)),
         })
-            .pipe(
-                take(1),
-                finalize(() => this.isLoading = false),
-            )
+            .pipe(finalize(() => this.isLoading = false))
             .subscribe(
                 (data: IBacktestList) => {
                     this.rows = data.items;
@@ -135,16 +149,21 @@ export class ListComponent implements OnInit {
             id: randomUUID(),
             form: new FormGroup({
                 paramSn: new FormControl(null),
-                compareType: new FormControl(null),
                 filterType: new FormControl(null),
+                compareType: new FormControl(null),
                 value: new FormControl(null),
+                valueFrom: new FormControl(null),
+                valueTo: new FormControl(null),
             })
         });
     }
 
     // Remove filter param
     public removeFilterParam(id: string): void {
-        this.filtersParam = this.filtersParam.filter(item => id !== item.id);
+        const swap = this.filtersParam
+            .filter(item => id !== item.id);
+        this.filtersParam.length = 0;
+        this.filtersParam.push(... swap);
     }
 
     public back(): void {

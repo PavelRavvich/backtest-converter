@@ -1,12 +1,11 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observable, of, ReplaySubject, Subscriber} from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import {Observable, of } from 'rxjs';
 
 // Interfaces
 import {
     IBacktest,
-    IBacktestList,
+    IBacktestList, IBacktestListRequest,
 } from '../interfaces';
-import { IListRequest } from '@shared/interfaces';
 
 // Helpers
 import { toTestCase } from '../helpers';
@@ -49,7 +48,7 @@ export class StoreService {
         });
     }
 
-    public getList(request: IListRequest): Observable<IBacktestList> {
+    public getList(request: IBacktestListRequest): Observable<IBacktestList> {
         return of({
             total: this.store.length,
             items: this.store

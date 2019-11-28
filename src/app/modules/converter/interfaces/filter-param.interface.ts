@@ -18,6 +18,12 @@ export interface IFilterParam {
     // Comparision type
     compareType: ComparisonType;
 
-    // Value for comparision
+    // Value for comparision in not range mode
     value?: boolean | number;
+
+    // Value for comparision in range mode
+    valueFrom?: boolean | number;
+
+    // Value for comparision in range mode
+    valueTo?: boolean | number;
 }

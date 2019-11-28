@@ -14,6 +14,9 @@ import {
     ComparisonType,
 } from '../../enums';
 
+// Helpers
+import { skipControlValidation } from '@shared/helpers';
+
 // Filter by single adviser param
 @Component({
     selector: 'app-filter-param',
@@ -44,25 +47,48 @@ export class FilterParamComponent implements OnInit {
     private subscribeForm(): void {
         const {
             value,
+            valueTo,
+            valueFrom,
             filterType,
             compareType,
         } = this.form.controls;
 
-        filterType
-            .valueChanges
+        filterType.valueChanges
             .pipe(pairwise())
-            .subscribe(
-                ([ prev, next ]: [ FilterParamType, FilterParamType ]) => {
-                    if (prev !== next) {
-                        compareType.reset();
-                        compareType.markAsPristine();
-                        compareType.setErrors(null);
-
-                        value.reset();
-                        value.markAsPristine();
-                        value.setErrors(null);
-                    }
+            .subscribe(([ prev, next ]: [ FilterParamType, FilterParamType ]) => {
+                if (prev !== next) {
+                    skipControlValidation(compareType);
+                    skipControlValidation(valueFrom);
+                    skipControlValidation(valueTo);
+                    skipControlValidation(value);
                 }
-            );
+            });
+
+        compareType.valueChanges
+            .pipe(pairwise())
+            .subscribe(([ prev, next ]: [ ComparisonType, ComparisonType ]) => {
+                if (prev !== next) {
+                    skipControlValidation(value);
+                    skipControlValidation(valueTo);
+                    skipControlValidation(valueFrom);
+                }
+            });
+    }
+
+    // Switch on/off filter
+    public switchOn() {
+        this.form.disabled
+            ? this.form.enable()
+            : this.form.disable();
+
+        const compareType = this.form.get('compareType').value;
+        if (compareType) {
+            if (compareType === ComparisonType.Range) {
+                skipControlValidation(this.form.get('value'));
+            } else {
+                skipControlValidation(this.form.get('valueFrom'));
+                skipControlValidation(this.form.get('valueTo'));
+            }
+        }
     }
 }

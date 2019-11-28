@@ -1,3 +1,4 @@
+export { IBacktestListRequest } from './backtest-list-request.interface';
 export { IFilterColumnConfig } from './filter-column-config.interface';
 export { IFilterParamConfig } from './filter-param-config.interface';
 export { IFilterColumn } from './filter-column.interface';
