@@ -10,8 +10,11 @@ import {
     FormGroup,
     FormControl,
 } from '@angular/forms';
+import {
+    Sort,
+    PageEvent,
+} from '@angular/material';
 import { finalize } from 'rxjs/operators';
-import { PageEvent } from '@angular/material';
 
 // Services
 import {
@@ -88,6 +91,12 @@ export class ListComponent implements OnInit {
     // Displayed columns
     public columns = [];
 
+    // Header sort
+    private readonly sort: Sort = {
+        active: null,
+        direction: null,
+    };
+
     // Pagination
     public readonly pagination = {
         options: [ 20, 50, 100 ],
@@ -113,6 +122,7 @@ export class ListComponent implements OnInit {
         this.isLoading = true;
 
         this.storeService.getList({
+            sort: this.sort,
             limit: this.pagination.pageSize,
             offset: this.pagination.pageIndex * this.pagination.pageSize,
             params: this.paramForms.map(item => toIFilter(item)).filter(item => item.isActive),
@@ -154,6 +164,12 @@ export class ListComponent implements OnInit {
             .filter(item => id !== item.get('id').value);
         this.paramForms.length = 0;
         this.paramForms.push(... swap);
+    }
+
+    public sorting(sort: Sort): void {
+        this.sort.active = sort.active;
+        this.sort.direction = sort.direction;
+        this.loadPage();
     }
 
     public back(): void {

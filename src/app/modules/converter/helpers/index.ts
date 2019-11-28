@@ -1,6 +1,6 @@
 export {
-    toParams,
-    toBacktest,
+    paramsParams,
+    parseBacktest,
 } from './backtest/backtest.helper';
 export {
     toIFilter,

@@ -59,50 +59,50 @@
     <mat-divider></mat-divider>
 
     <app-card>
-        <table mat-table [dataSource]="rows" class="tb">
+        <table mat-table [dataSource]="rows" (matSortChange)="sorting($event)" matSort class="tb">
 
             <ng-container matColumnDef="number">
-                <th mat-header-cell *matHeaderCellDef>Проход</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Проход</th>
                 <td mat-cell *matCellDef="let item"> {{item.number}} </td>
             </ng-container>
 
             <ng-container matColumnDef="profitToDropDown">
-                <th mat-header-cell *matHeaderCellDef>Прибыль/Просадка</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Прибыль/Просадка</th>
                 <td mat-cell *matCellDef="let item"> {{item.profitToDropDown | number: '1.2-2'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="profit">
-                <th mat-header-cell *matHeaderCellDef>Прибыль</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Прибыль</th>
                 <td mat-cell *matCellDef="let item"> {{item.profit}} </td>
             </ng-container>
 
             <ng-container matColumnDef="value">
-                <th mat-header-cell *matHeaderCellDef>Всего сделок</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Всего сделок</th>
                 <td mat-cell *matCellDef="let item"> {{item.value}} </td>
             </ng-container>
 
             <ng-container matColumnDef="profitable">
-                <th mat-header-cell *matHeaderCellDef>Прибыльность</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Прибыльность</th>
                 <td mat-cell *matCellDef="let item"> {{item.profitable}} </td>
             </ng-container>
 
             <ng-container matColumnDef="mathExpectation">
-                <th mat-header-cell *matHeaderCellDef>Матожидание</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Матожидание</th>
                 <td mat-cell *matCellDef="let item"> {{item.mathExpectation}} </td>
             </ng-container>
 
             <ng-container matColumnDef="dropDownCurrency">
-                <th mat-header-cell *matHeaderCellDef>Просадка $</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Просадка $</th>
                 <td mat-cell *matCellDef="let item"> {{item.dropDownCurrency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="dropDownPercent">
-                <th mat-header-cell *matHeaderCellDef>Просадка %</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Просадка %</th>
                 <td mat-cell *matCellDef="let item"> {{item.dropDownPercent}} </td>
             </ng-container>
 
             <ng-container matColumnDef="params">
-                <th mat-header-cell *matHeaderCellDef>Параметры</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Параметры</th>
                 <td mat-cell *matCellDef="let item"> {{item.params}} </td>
             </ng-container>
 

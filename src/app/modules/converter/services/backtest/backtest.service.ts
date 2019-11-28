@@ -8,7 +8,7 @@ import {
 } from '../../interfaces';
 
 // Helpers
-import { toBacktest } from '../../helpers';
+import { parseBacktest } from '../../helpers';
 
 @Injectable()
 export class BacktestService {
@@ -23,7 +23,7 @@ export class BacktestService {
                 return content
                     .trim()
                     .split('\n')
-                    .map(item => toBacktest(item, paramsLength));
+                    .map(item => parseBacktest(item, paramsLength));
             });
             observer.next();
             observer.complete();

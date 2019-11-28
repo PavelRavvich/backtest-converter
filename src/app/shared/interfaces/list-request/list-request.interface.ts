@@ -1,3 +1,5 @@
+import { Sort } from '@angular/material';
+
 // List request
 export interface IListRequest {
 
@@ -9,6 +11,9 @@ export interface IListRequest {
 
     // Rows before page
     offset?: number;
+
+    // Sort config
+    sort?: Sort;
 
     // Addition field
     [key: string]: any;

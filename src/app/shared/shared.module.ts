@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Modules
 import {
     MatIconModule,
+    MatSortModule,
     MatListModule,
     MatTableModule,
     MatInputModule,
@@ -51,6 +52,7 @@ import { InputMaskDirective } from './directives';
         RouterModule,
         MatListModule,
         MatIconModule,
+        MatSortModule,
         MatTableModule,
         MatInputModule,
         MatDialogModule,
@@ -72,6 +74,7 @@ import { InputMaskDirective } from './directives';
         BreadcrumbsComponent,
         LoadingOverlayComponent,
         MatIconModule,
+        MatSortModule,
         MatListModule,
         MatInputModule,
         MatTableModule,

@@ -5,25 +5,25 @@ export interface IBacktest {
     params: any;
 
     // Number of backtest
-    number: string;
+    number: number;
 
     // Profit of all deals in currency
-    profit: string;
+    profit: number;
 
     // Deals amount
-    value: string;
+    value: number;
 
     // Profitable in percent from start deposit
-    profitable: string;
+    profitable: number;
 
     // Math expectations
-    mathExpectation: string;
+    mathExpectation: number;
 
     // Drop down in currencies
-    dropDownCurrency: string;
+    dropDownCurrency: number;
 
     // Drop down in percentage from start deposit
-    dropDownPercent: string;
+    dropDownPercent: number;
 
     // Coefficient profit/dropdown
     profitToDropDown: number;
