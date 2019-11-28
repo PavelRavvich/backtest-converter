@@ -5,30 +5,13 @@ import {Observable, of } from 'rxjs';
 import {
     IBacktest,
     IBacktestList, IBacktestListRequest,
-} from '../interfaces';
+} from '../../interfaces';
 
 // Helpers
-import { toTestCase } from '../helpers';
-
-const mock = {
-    total: 1,
-    items: [
-        {
-            params: '',
-            number: '',
-            profit: '',
-            value: '',
-            profitable: '',
-            mathExpectation: '',
-            dropDownCurrency: '',
-            dropDownPercent: '',
-            profitToDropDown: 1,
-        }
-    ]
-};
+import { toBacktest } from '../../helpers';
 
 @Injectable()
-export class StoreService {
+export class BacktestService {
 
     private store: IBacktest[] = [];
 
@@ -40,8 +23,7 @@ export class StoreService {
                 return content
                     .trim()
                     .split('\n')
-                    .map(item => toTestCase(item, paramsLength))
-                    .sort((a, b) => b.profitToDropDown - a.profitToDropDown);
+                    .map(item => toBacktest(item, paramsLength));
             });
             observer.next();
             observer.complete();
@@ -49,6 +31,7 @@ export class StoreService {
     }
 
     public getList(request: IBacktestListRequest): Observable<IBacktestList> {
+        console.log(request);
         return of({
             total: this.store.length,
             items: this.store

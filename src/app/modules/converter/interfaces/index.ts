@@ -1,8 +1,4 @@
-export { IBacktestListRequest } from './backtest-list-request.interface';
-export { IFilterColumnConfig } from './filter-column-config.interface';
-export { IFilterParamConfig } from './filter-param-config.interface';
-export { IFilterColumn } from './filter-column.interface';
-export { IBacktestList } from './backtest-list.interface';
-export { ITableConfig } from './table-config.interface';
-export { IFilterParam } from './filter-param.interface';
-export { IBacktest } from './backtest.interface';
+export { IBacktestListRequest } from './backtest/backtest-list-request.interface';
+export { IBacktestList } from './backtest/backtest-list.interface';
+export { IBacktest } from './backtest/backtest.interface';
+export { IFilter } from './filter/filter.interface';

@@ -2,7 +2,7 @@
     <app-row>
         <mat-form-field class="w200" appearance="outline">
             <mat-label>Параметр</mat-label>
-            <input matInput required formControlName="paramSn">
+            <input matInput required formControlName="key">
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="w180">
@@ -75,7 +75,10 @@
                 </mat-icon>
             </button>
 
-            <button class="item__action" mat-icon-button (click)="removeChange.emit(id)">
+            <button
+                mat-icon-button
+                class="item__action"
+                (click)="removeChange.emit(form.get('id').value)">
                 <mat-icon color="warn">delete_forever</mat-icon>
             </button>
         </div>

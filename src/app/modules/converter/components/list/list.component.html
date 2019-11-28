@@ -19,10 +19,8 @@
             Фильтры по колонкам
         </app-title>
 
-        <div *ngFor="let filter of filtersColumn">
-            <app-filter-column
-                [form]="filter.form"
-            ></app-filter-column>
+        <div *ngFor="let form of columnForms">
+            <app-filter-column [form]="form"></app-filter-column>
         </div>
     </div>
 
@@ -31,12 +29,8 @@
             Фильтры по параметрам
         </app-title>
 
-        <div *ngFor="let filter of filtersParam">
-            <app-filter-param
-                [id]="filter.id"
-                [form]="filter.form"
-                (removeChange)="removeFilterParam($event)"
-            ></app-filter-param>
+        <div *ngFor="let form of paramForms">
+            <app-filter-param [form]="form" (removeChange)="removeFilterParam($event)"></app-filter-param>
         </div>
 
         <div class="page-title-bar">
@@ -61,6 +55,8 @@
             </app-buttons>
         </div>
     </div>
+
+    <mat-divider></mat-divider>
 
     <app-card>
         <table mat-table [dataSource]="rows" class="tb">

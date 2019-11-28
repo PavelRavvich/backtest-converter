@@ -16,7 +16,7 @@ import {
 // Services
 import {
     TableService,
-    StoreService,
+    BacktestService,
 } from './services';
 import { FilterColumnComponent } from './components/filter-column/filter-column.component';
 
@@ -36,7 +36,7 @@ import { FilterColumnComponent } from './components/filter-column/filter-column.
     ],
     providers: [
         TableService,
-        StoreService,
+        BacktestService,
     ]
 })
 export class ConverterModule {

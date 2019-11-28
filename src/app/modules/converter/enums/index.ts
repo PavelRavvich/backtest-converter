@@ -1,2 +1,2 @@
-export { ComparisonType } from './comparison-type.enum';
-export { FilterParamType } from './filter-param-type.enum';
+export { ComparisonType } from './filter/comparison-type.enum';
+export { FilterParamType } from './filter/filter-param-type.enum';

@@ -19,7 +19,7 @@ import { subControl } from '@shared/helpers';
 // Services
 import {
     TableService,
-    StoreService,
+    BacktestService,
 } from '../../services';
 
 
@@ -35,7 +35,7 @@ export class FormComponent implements OnInit {
         private readonly router: Router,
         private readonly route: ActivatedRoute,
         private readonly tableService: TableService,
-        private readonly backtestService: StoreService,
+        private readonly backtestService: BacktestService,
     ) { }
 
     // Data conversation process

@@ -1,16 +1,13 @@
-import { ComparisonType, FilterParamType } from '../enums';
+import { ComparisonType, FilterParamType } from '../../enums';
 
-// Filter param output
-export interface IFilterParam {
+// Filter output
+export interface IFilter {
 
-    // Filter-row id
-    id: string;
+    // Param name for collection
+    key: string;
 
     // Using or not current filter
     isActive: boolean;
-
-    // Param name for collection
-    paramSn: string;
 
     // Filter type numeric or boolean
     filterType: FilterParamType;

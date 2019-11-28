@@ -1,8 +1,7 @@
 export {
     toParams,
-    toTestCase,
-} from './test-case.helper';
+    toBacktest,
+} from './backtest/backtest.helper';
 export {
-    toFilterParam,
-    toFilterColumn,
-} from './filter.helper';
+    toIFilter,
+} from './filter/filter.helper';
