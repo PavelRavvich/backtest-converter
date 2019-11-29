@@ -21,6 +21,8 @@ import {
     TableService,
     BacktestService,
 } from '../../services';
+import {from} from 'rxjs';
+import {MatCheckboxChange} from '@angular/material';
 
 
 // Form for collecting backtest data from MT4
@@ -41,48 +43,28 @@ export class FormComponent implements OnInit {
     // Data conversation process
     public isLoader = false;
 
-    // Data form
-    public form: FormGroup;
+    // Adviser input param keys
+    public params: string[] = [];
+
+    // Uploaded content
+    public content = new FormControl(null, [ Validators.required ]);
+
+    // Optional columns
+    public readonly columns = [
+        { title: 'Прибыльность', value: 'profitable'},
+        { title: 'Просадка %', value: 'dropDownPercent'},
+        { title: 'Матожидание', value: 'mathExpectation'},
+    ];
 
     public ngOnInit(): void {
-        this.createForm();
-        this.subscribeForm();
-    }
-
-    private createForm(): void {
-        this.form = new FormGroup({
-            content: new FormControl(null, [ Validators.required ]),
-            profitable: new FormControl(null),
-            mathExpectation: new FormControl(null),
-            dropDownPercent: new FormControl(null),
-            params: new FormControl(true),
-            paramsLength: new FormControl(17),
-        });
-    }
-
-    private subscribeForm(): void {
-        const {
-            params,
-            paramsLength,
-        } = this.form.controls;
-
-        subControl(params, paramsLength);
     }
 
     public load(): void {
         this.isLoader = true;
-
-        const {
-            content,
-            paramsLength,
-        } = this.form.value;
-        this.form.get('content').reset();
-
         const fn = () => this.backtestService
-            .setStore(content, paramsLength)
+            .setStore(this.content.value)
             .pipe(finalize(() => { this.isLoader = false; }))
             .subscribe(() => {
-                this.configureDatatable();
                 this.router.navigate([ 'list' ], {
                     relativeTo: this.route,
                     queryParamsHandling: 'merge',
@@ -92,20 +74,32 @@ export class FormComponent implements OnInit {
         setTimeout(fn, 200);
     }
 
-    private configureDatatable() {
-        const {
-            params,
-            profitable,
-            dropDownPercent,
-            mathExpectation,
-        } = this.form.value;
+    private changeColumns(column: string, event: MatCheckboxChange) {
+        event.checked
+            ? this.tableService.addColumn(column)
+            : this.tableService.removeColumn(column);
+    }
 
-        const columns = [];
-        if (profitable) { columns.push('profitable'); }
-        if (dropDownPercent) { columns.push('dropDownPercent'); }
-        if (mathExpectation) { columns.push('mathExpectation'); }
-        if (params) { columns.push('params'); }
+    private changeParams(column: string, event: MatCheckboxChange) {
+        event.checked
+            ? this.tableService.addParam(column)
+            : this.tableService.removeParam(column);
+    }
 
-        this.tableService.addColumns(columns);
+    public paste() {
+        window.clientInformation.clipboard.readText()
+            .then(value => {
+                this.content.setValue(value);
+                if (value.indexOf('\n') !== -1) {
+                    const columns = value
+                        .split('\n', 1)[0]
+                        .split('\t');
+                    this.params = columns
+                        .slice(8, columns.length)
+                        .map(item => item.split('=')[0]);
+                } else {
+                    // TODO handle error...
+                }
+            });
     }
 }

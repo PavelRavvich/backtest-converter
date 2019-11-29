@@ -2,7 +2,7 @@
 export interface IBacktest {
 
     // Adviser input parameters.
-    params: any;
+    params?: any;
 
     // Number of backtest
     number: number;

@@ -1,5 +1,5 @@
 export {
-    paramsParams,
+    parseParams,
     parseBacktest,
 } from './backtest/backtest.helper';
 export {

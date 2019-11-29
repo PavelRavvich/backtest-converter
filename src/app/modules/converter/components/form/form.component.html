@@ -5,61 +5,66 @@
 
     <app-buttons>
         <button
-            [disabled]="form.pristine || form.invalid"
+            [disabled]="content.invalid || !params.length"
             (click)="load()"
             type="button"
             color="primary"
             mat-raised-button>
-            Загрузить
+            Далее
         </button>
     </app-buttons>
 </div>
 
-<app-card [formGroup]="form">
-    <div class="wrapper">
-        <app-row>
-            <mat-checkbox formControlName="params" class="checkbox-row w230 mb24 mt4">
-                <span class="checkbox-title">Параметры</span>
-            </mat-checkbox>
-
-            <mat-form-field appearance="outline" class="w230">
-                <mat-label>Количество параметров</mat-label>
-                <input
-                    matInput
-                    required
-                    formControlName="paramsLength"
-                    [appInputMask]="{ alias: 'integer' }">
-            </mat-form-field>
-        </app-row>
-
-        <app-row>
-            <mat-checkbox formControlName="profitable" class="checkbox-row w230">
-                <span class="checkbox-title">Прибыльность</span>
-            </mat-checkbox>
-
-            <mat-checkbox formControlName="mathExpectation" class="checkbox-row w230">
-                <span class="checkbox-title">Матожидание</span>
-            </mat-checkbox>
-
-            <mat-checkbox formControlName="dropDownPercent" class="checkbox-row w230">
-                <span class="checkbox-title">Просадка %</span>
-            </mat-checkbox>
-        </app-row>
-
-        <app-row class="mt20">
-            <mat-form-field class="w-full textarea" appearance="outline">
-                <mat-label>Тесты</mat-label>
-                <textarea
-                    matInput
-                    required
-                    formControlName="content"
-                    cdkTextareaAutosize
-                    cdkAutosizeMinRows="3"
-                    cdkAutosizeMaxRows="40"
-                ></textarea>
-            </mat-form-field>
-        </app-row>
+<app-card>
+    <div class="mb20">
+        <button
+            (click)="paste()"
+            type="button"
+            color="primary"
+            mat-raised-button>
+            Загрузить из буфера обмена
+            <mat-icon class="mat-18 ml5">refresh</mat-icon>
+        </button>
     </div>
+
+    <div *ngIf="content.value && params.length">
+        <div class="wrapper">
+            <app-card class="m15">
+                <app-title class="page-title mr-auto">
+                    Дополнительные колонки
+                </app-title>
+
+                <app-row>
+                    <div *ngFor="let column of columns">
+                        <mat-checkbox class="checkbox-row w260" (change)="changeColumns(column.value, $event)">
+                            <span class="checkbox-title"> {{column.title}} </span>
+                        </mat-checkbox>
+                    </div>
+                </app-row>
+            </app-card>
+
+            <app-card class="m15">
+                <app-title class="page-title mr-auto">
+                    Параметры советника для отображения
+                </app-title>
+
+                <app-row>
+                    <div *ngFor="let param of params">
+                        <mat-checkbox class="checkbox-row w260" (change)="changeParams(param, $event)">
+                            <span class="checkbox-title"> {{param}} </span>
+                        </mat-checkbox>
+                    </div>
+                </app-row>
+            </app-card>
+        </div>
+    </div>
+
+    <app-card *ngIf="content.value && !params.length">
+        <app-title class="page-title justify-content-center color-warn mt50">
+            Неверный формат входных данных!
+        </app-title>
+        <p class="color-warn">{{content.value}}</p>
+    </app-card>
 </app-card>
 
 <app-loading-overlay *ngIf="isLoader"></app-loading-overlay>

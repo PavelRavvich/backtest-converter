@@ -1,6 +1,6 @@
 import { IBacktest } from '../../interfaces';
 
-export function parseBacktest(data: string, paramsLength: number): IBacktest {
+export function parseBacktest(data: string): IBacktest {
     const item = data.split('\t');
     return {
         number: +item[0],
@@ -11,10 +11,10 @@ export function parseBacktest(data: string, paramsLength: number): IBacktest {
         dropDownCurrency: +item[5],
         dropDownPercent: +item[6].slice(-1),
         profitToDropDown: +item[1] / +item[5],
-        params: paramsLength && paramsParams(item, paramsLength),
+        // params: paramsLength && parseParams(item, paramsLength),
     };
 }
 
-export function paramsParams(data: string[], paramsLength: number): any {
+export function parseParams(data: string[], paramsLength: number): any {
     return data.slice(paramsLength * -1).join(', ');
 }

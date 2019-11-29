@@ -118,7 +118,7 @@ export class ListComponent implements OnInit {
         this.loadPage();
     }
 
-    private loadPage(): void {
+    public loadPage(): void {
         this.isLoading = true;
 
         this.storeService.getList({

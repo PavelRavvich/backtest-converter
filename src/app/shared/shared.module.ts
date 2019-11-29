@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Modules
 import {
+    MatCardModule,
     MatIconModule,
     MatSortModule,
     MatListModule,
@@ -50,6 +51,7 @@ import { InputMaskDirective } from './directives';
         CommonModule,
         FormsModule,
         RouterModule,
+        MatCardModule,
         MatListModule,
         MatIconModule,
         MatSortModule,
@@ -73,6 +75,7 @@ import { InputMaskDirective } from './directives';
         InputMaskDirective,
         BreadcrumbsComponent,
         LoadingOverlayComponent,
+        MatCardModule,
         MatIconModule,
         MatSortModule,
         MatListModule,

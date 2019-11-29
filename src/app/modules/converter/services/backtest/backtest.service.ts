@@ -17,13 +17,13 @@ export class BacktestService {
 
     constructor(private readonly ngZone: NgZone) {}
 
-    public setStore(content: string, paramsLength: number): Observable<void> {
+    public setStore(content: string): Observable<void> {
         return new Observable<void>((observer) => {
             this.store = this.ngZone.runOutsideAngular((): IBacktest[] => {
                 return content
                     .trim()
                     .split('\n')
-                    .map(item => parseBacktest(item, paramsLength));
+                    .map(item => parseBacktest(item));
             });
             observer.next();
             observer.complete();

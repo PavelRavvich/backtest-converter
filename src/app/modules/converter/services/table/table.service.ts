@@ -13,11 +13,23 @@ export class TableService {
     ];
 
     private config: any = {
-        columns: []
+        columns: [],
+        params: [],
     };
 
-    public addColumns(columns: string[]): void {
-        this.config.columns = [ ... this.defaultColumns, ...columns ];
+    public addParam(param: string): void {
+        this.config.params.push(param);
+    }
+
+    removeParam(param: string): void {
+        this.config.params.filter(item => item !== param);
+    }
+    public addColumn(column: string): void {
+        this.config.columns = [ ... this.defaultColumns, column ];
+    }
+
+    public removeColumn(column: string): void {
+        this.config.columns.filter(item => item !== column);
     }
 
     public resetColumns(): void {
@@ -25,6 +37,9 @@ export class TableService {
     }
 
     public getColumns(): string[] {
+        if (this.config.params.length) {
+            this.config.columns.push('params');
+        }
         return this.config.columns.length
             ? this.config.columns
             : this.defaultColumns;
