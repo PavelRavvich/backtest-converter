@@ -19,6 +19,7 @@ import {
     MatPaginatorModule,
     MatFormFieldModule,
     MatProgressBarModule,
+    MatSlideToggleModule,
     MatProgressSpinnerModule,
 } from '@angular/material';
 
@@ -65,6 +66,7 @@ import { InputMaskDirective } from './directives';
         MatPaginatorModule,
         ReactiveFormsModule,
         MatProgressBarModule,
+        MatSlideToggleModule,
         MatProgressSpinnerModule,
     ],
     exports: [
@@ -87,6 +89,7 @@ import { InputMaskDirective } from './directives';
         MatCheckboxModule,
         MatPaginatorModule,
         MatFormFieldModule,
+        MatSlideToggleModule,
         MatProgressBarModule,
         MatProgressSpinnerModule,
     ]

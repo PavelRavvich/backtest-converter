@@ -13,16 +13,11 @@ import {
 } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
-// Helpers
-import { subControl } from '@shared/helpers';
-
 // Services
 import {
     TableService,
     BacktestService,
 } from '../../services';
-import {from} from 'rxjs';
-import {MatCheckboxChange} from '@angular/material';
 
 
 // Form for collecting backtest data from MT4
@@ -43,11 +38,11 @@ export class FormComponent implements OnInit {
     // Data conversation process
     public isLoader = false;
 
+    // Form
+    public form: FormGroup;
+
     // Adviser input param keys
     public params: string[] = [];
-
-    // Uploaded content
-    public content = new FormControl(null, [ Validators.required ]);
 
     // Optional columns
     public readonly columns = [
@@ -57,14 +52,25 @@ export class FormComponent implements OnInit {
     ];
 
     public ngOnInit(): void {
+        this.createForm();
     }
 
-    public load(): void {
+    private createForm(): void {
+        this.form = new FormGroup({
+            content: new FormControl(null, [ Validators.required ]),
+            params: new FormGroup({}),
+            columns: new FormGroup({}),
+        });
+    }
+
+    // Move to next step
+    public next(): void {
         this.isLoader = true;
         const fn = () => this.backtestService
-            .setStore(this.content.value)
+            .setStore(this.form.get('content').value)
             .pipe(finalize(() => { this.isLoader = false; }))
             .subscribe(() => {
+                this.configureTable();
                 this.router.navigate([ 'list' ], {
                     relativeTo: this.route,
                     queryParamsHandling: 'merge',
@@ -74,22 +80,27 @@ export class FormComponent implements OnInit {
         setTimeout(fn, 200);
     }
 
-    private changeColumns(column: string, event: MatCheckboxChange) {
-        event.checked
-            ? this.tableService.addColumn(column)
-            : this.tableService.removeColumn(column);
+    // Save datatable config into service
+    private configureTable(): void {
+        this.columns.forEach(item => {
+            if (this.form.get('columns').get(item.value).value) {
+                this.tableService.addColumn(item.value);
+            }
+        });
+
+        this.params.forEach(item => {
+            if (this.form.get('params').get(item).value) {
+                this.tableService.addParam(item);
+            }
+        });
     }
 
-    private changeParams(column: string, event: MatCheckboxChange) {
-        event.checked
-            ? this.tableService.addParam(column)
-            : this.tableService.removeParam(column);
-    }
-
+    // Paste backtest data from clipboard
     public paste() {
         window.clientInformation.clipboard.readText()
             .then(value => {
-                this.content.setValue(value);
+                this.form.get('content').setValue(value);
+                // Parse clipboard data
                 if (value.indexOf('\n') !== -1) {
                     const columns = value
                         .split('\n', 1)[0]
@@ -97,9 +108,20 @@ export class FormComponent implements OnInit {
                     this.params = columns
                         .slice(8, columns.length)
                         .map(item => item.split('=')[0]);
-                } else {
-                    // TODO handle error...
+
+                    this.initFormGroup();
                 }
             });
+    }
+
+    // Init dynamic table columns and adviser input params as form
+    private initFormGroup(): void {
+        const columns = this.form.get('columns') as FormGroup;
+        this.columns.forEach(item => columns
+            .addControl(item.value, new FormControl(null)));
+
+        const params = this.form.get('params') as FormGroup;
+        this.params.forEach(item => params
+            .addControl(item, new FormControl(null)));
     }
 }

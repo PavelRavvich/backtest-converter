@@ -173,7 +173,7 @@ export class ListComponent implements OnInit {
     }
 
     public back(): void {
-        this.tableService.resetColumns();
+        this.tableService.reset();
         this.router.navigate([ '..' ], {
             relativeTo: this.route,
             queryParamsHandling: 'merge',

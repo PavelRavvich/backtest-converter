@@ -5,8 +5,8 @@
 
     <app-buttons>
         <button
-            [disabled]="content.invalid || !params.length"
-            (click)="load()"
+            [disabled]="form.get('content').invalid || !params.length"
+            (click)="next()"
             type="button"
             color="primary"
             mat-raised-button>
@@ -27,16 +27,18 @@
         </button>
     </div>
 
-    <div *ngIf="content.value && params.length">
+    <div [formGroup]="form" *ngIf="form.get('content').value && params.length">
         <div class="wrapper">
-            <app-card class="m15">
+            <app-card formGroupName="columns" class="m15">
                 <app-title class="page-title mr-auto">
                     Дополнительные колонки
                 </app-title>
 
-                <app-row>
+                <app-row class="mt20">
                     <div *ngFor="let column of columns">
-                        <mat-checkbox class="checkbox-row w260" (change)="changeColumns(column.value, $event)">
+                        <mat-checkbox
+                            class="checkbox-row w260"
+                            [formControlName]="column.value">
                             <span class="checkbox-title"> {{column.title}} </span>
                         </mat-checkbox>
                     </div>
@@ -44,13 +46,15 @@
             </app-card>
 
             <app-card class="m15">
-                <app-title class="page-title mr-auto">
-                    Параметры советника для отображения
+                <app-title class="page-title mr-auto mt20">
+                    Колонка параметров советника
                 </app-title>
 
-                <app-row>
+                <app-row formGroupName="params" class="mt20">
                     <div *ngFor="let param of params">
-                        <mat-checkbox class="checkbox-row w260" (change)="changeParams(param, $event)">
+                        <mat-checkbox
+                            class="checkbox-row w260"
+                            [formControlName]="param">
                             <span class="checkbox-title"> {{param}} </span>
                         </mat-checkbox>
                     </div>
@@ -59,11 +63,11 @@
         </div>
     </div>
 
-    <app-card *ngIf="content.value && !params.length">
+    <app-card *ngIf="form.get('content').value && !params.length">
         <app-title class="page-title justify-content-center color-warn mt50">
             Неверный формат входных данных!
         </app-title>
-        <p class="color-warn">{{content.value}}</p>
+        <p class="color-warn"> {{form.get('content').value}} </p>
     </app-card>
 </app-card>
 
