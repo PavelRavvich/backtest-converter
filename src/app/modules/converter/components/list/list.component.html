@@ -29,8 +29,11 @@
             Фильтры по параметрам
         </app-title>
 
-        <div *ngFor="let form of paramForms">
-            <app-filter-param [form]="form" (removeChange)="removeFilterParam($event)"></app-filter-param>
+        <div *ngFor="let paramForm of paramForms">
+            <app-filter-param
+                [form]="paramForm"
+                (removeChange)="removeFilterParam($event)"
+            ></app-filter-param>
         </div>
 
         <div class="page-title-bar">

@@ -117,8 +117,8 @@ export class FormComponent implements OnInit {
             .map(item => item.split('=')[0]);
 
         const paramsForm = this.form.get('params') as FormGroup;
-        this.params.forEach(paramControlName =>
-            paramsForm.addControl(paramControlName, new FormControl()));
+        this.params.forEach(controlName =>
+            paramsForm.addControl(controlName, new FormControl()));
     }
 
     // Init adviser input params as form

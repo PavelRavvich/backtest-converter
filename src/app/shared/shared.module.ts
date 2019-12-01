@@ -20,6 +20,7 @@ import {
     MatFormFieldModule,
     MatProgressBarModule,
     MatSlideToggleModule,
+    MatAutocompleteModule,
     MatProgressSpinnerModule,
 } from '@angular/material';
 
@@ -67,6 +68,7 @@ import { InputMaskDirective } from './directives';
         ReactiveFormsModule,
         MatProgressBarModule,
         MatSlideToggleModule,
+        MatAutocompleteModule,
         MatProgressSpinnerModule,
     ],
     exports: [
@@ -91,6 +93,7 @@ import { InputMaskDirective } from './directives';
         MatFormFieldModule,
         MatSlideToggleModule,
         MatProgressBarModule,
+        MatAutocompleteModule,
         MatProgressSpinnerModule,
     ]
 })

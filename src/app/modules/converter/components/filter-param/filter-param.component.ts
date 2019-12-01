@@ -17,6 +17,9 @@ import {
 // Helpers
 import { skipControlValidation } from '@shared/helpers';
 
+// Services
+import { TableService } from '../../services';
+
 // Filter by single adviser param
 @Component({
     selector: 'app-filter-param',
@@ -25,20 +28,26 @@ import { skipControlValidation } from '@shared/helpers';
 })
 export class FilterParamComponent implements OnInit {
 
-    // Filter id
-    @Input() public id: string;
-
     // Filter form
     @Input() public form: FormGroup;
 
-    // Notification about remove this filter-param-list-param-row instance
+    // Notification about remove this filter
     @Output() public removeChange = new EventEmitter<string>();
+
+    // Params for autocomplete
+    public params: string[];
 
     // Filter data types enum
     public FilterType = FilterParamType;
 
     // Comparison types enum
     public ComparisonType = ComparisonType;
+
+    constructor(
+        private readonly tableService: TableService,
+    ) {
+        this.params = tableService.getParams();
+    }
 
     public ngOnInit(): void {
         this.subscribeForm();
