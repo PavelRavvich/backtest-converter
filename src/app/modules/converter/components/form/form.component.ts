@@ -45,10 +45,10 @@ export class FormComponent implements OnInit {
     public params: string[] = [];
 
     // Optional columns
-    public readonly columns = [
-        { title: 'Прибыльность', value: 'profitable'},
-        { title: 'Просадка %', value: 'dropDownPercent'},
-        { title: 'Матожидание', value: 'mathExpectation'},
+    public readonly columns: Array<{ title: string, controlName: string }> = [
+        { title: 'Прибыльность', controlName: 'profitable'},
+        { title: 'Просадка %', controlName: 'dropDownPercent'},
+        { title: 'Матожидание', controlName: 'mathExpectation'},
     ];
 
     public ngOnInit(): void {
@@ -82,15 +82,15 @@ export class FormComponent implements OnInit {
 
     // Save datatable config into service
     private configureTable(): void {
-        this.columns.forEach(item => {
-            if (this.form.get('columns').get(item.value).value) {
-                this.tableService.addColumn(item.value);
+        this.columns.forEach(column => {
+            if (this.form.get('columns').get(column.controlName).value) {
+                this.tableService.addColumn(column.controlName);
             }
         });
 
-        this.params.forEach(item => {
-            if (this.form.get('params').get(item).value) {
-                this.tableService.addParam(item);
+        this.params.forEach(param => {
+            if (this.form.get('params').get(param).value) {
+                this.tableService.addParam(param);
             }
         });
     }
@@ -98,30 +98,33 @@ export class FormComponent implements OnInit {
     // Paste backtest data from clipboard
     public paste() {
         window.clientInformation.clipboard.readText()
-            .then(value => {
-                this.form.get('content').setValue(value);
-                // Parse clipboard data
-                if (value.indexOf('\n') !== -1) {
-                    const columns = value
-                        .split('\n', 1)[0]
-                        .split('\t');
-                    this.params = columns
-                        .slice(8, columns.length)
-                        .map(item => item.split('=')[0]);
-
-                    this.initFormGroup();
+            .then(content => {
+                this.form.get('content').setValue(content);
+                if (content.indexOf('\n') !== -1) {
+                    this.initParamForm();
+                    this.initColumnForm();
                 }
             });
     }
 
-    // Init dynamic table columns and adviser input params as form
-    private initFormGroup(): void {
-        const columns = this.form.get('columns') as FormGroup;
-        this.columns.forEach(item => columns
-            .addControl(item.value, new FormControl(null)));
+    // Init input params as form
+    private initParamForm(): void {
+        const columns = this.form.get('content').value
+            .split('\n', 1)[0]
+            .split('\t');
+        this.params = columns
+            .slice(8, columns.length)
+            .map(item => item.split('=')[0]);
 
-        const params = this.form.get('params') as FormGroup;
-        this.params.forEach(item => params
-            .addControl(item, new FormControl(null)));
+        const paramsForm = this.form.get('params') as FormGroup;
+        this.params.forEach(paramControlName =>
+            paramsForm.addControl(paramControlName, new FormControl()));
+    }
+
+    // Init adviser input params as form
+    private initColumnForm(): void {
+        const columns = this.form.get('columns') as FormGroup;
+        this.columns.forEach(item =>
+            columns.addControl(item.controlName, new FormControl()));
     }
 }

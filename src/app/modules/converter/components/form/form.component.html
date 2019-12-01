@@ -38,7 +38,7 @@
                     <div *ngFor="let column of columns">
                         <mat-checkbox
                             class="checkbox-row w260"
-                            [formControlName]="column.value">
+                            [formControlName]="column.controlName">
                             <span class="checkbox-title"> {{column.title}} </span>
                         </mat-checkbox>
                     </div>
