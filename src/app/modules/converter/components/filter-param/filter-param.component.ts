@@ -10,7 +10,7 @@ import { pairwise } from 'rxjs/operators';
 
 // Enums
 import {
-    FilterParamType,
+    FilterType,
     ComparisonType,
 } from '../../enums';
 
@@ -38,7 +38,7 @@ export class FilterParamComponent implements OnInit {
     public params: string[];
 
     // Filter data types enum
-    public FilterType = FilterParamType;
+    public FilterType = FilterType;
 
     // Comparison types enum
     public ComparisonType = ComparisonType;
@@ -64,7 +64,7 @@ export class FilterParamComponent implements OnInit {
 
         filterType.valueChanges
             .pipe(pairwise())
-            .subscribe(([ prev, next ]: [ FilterParamType, FilterParamType ]) => {
+            .subscribe(([ prev, next ]: [ FilterType, FilterType ]) => {
                 if (prev !== next) {
                     skipControlValidation(compareType);
                     skipControlValidation(valueFrom);

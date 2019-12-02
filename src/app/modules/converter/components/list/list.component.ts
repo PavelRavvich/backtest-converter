@@ -34,6 +34,9 @@ import {
 } from '../../helpers';
 import { randomUUID } from '@shared/helpers';
 
+// Enums
+import { FilterType } from '../../enums';
+
 
 // List cases
 @Component({
@@ -49,6 +52,7 @@ export class ListComponent implements OnInit {
     // Columns filter list
     public readonly columnForms: FormGroup[] = [
         new FormGroup({
+            filterType: new FormControl(FilterType.Numeric),
             key: new FormControl('value'),
             name: new FormControl('Всего сделок'),
             value: new FormControl(null),
@@ -57,6 +61,7 @@ export class ListComponent implements OnInit {
             compareType: new FormControl(null),
         }),
         new FormGroup({
+            filterType: new FormControl(FilterType.Numeric),
             key: new FormControl('profit'),
             name: new FormControl('Прибыль $'),
             value: new FormControl(null),
@@ -65,6 +70,7 @@ export class ListComponent implements OnInit {
             compareType: new FormControl(null),
         }),
         new FormGroup({
+            filterType: new FormControl(FilterType.Numeric),
             key: new FormControl('dropDownCurrency'),
             name: new FormControl('Просадка $'),
             value: new FormControl(null),
@@ -73,6 +79,7 @@ export class ListComponent implements OnInit {
             compareType: new FormControl(null),
         }),
         new FormGroup({
+            filterType: new FormControl(FilterType.Numeric),
             key: new FormControl('profitToDropDown'),
             name: new FormControl('Прибыль/Просадка $'),
             value: new FormControl(null),

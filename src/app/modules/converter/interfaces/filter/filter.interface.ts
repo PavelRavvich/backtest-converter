@@ -1,4 +1,4 @@
-import { ComparisonType, FilterParamType } from '../../enums';
+import { ComparisonType, FilterType } from '../../enums';
 
 // Filter output
 export interface IFilter {
@@ -10,7 +10,7 @@ export interface IFilter {
     isActive: boolean;
 
     // Filter type numeric or boolean
-    filterType: FilterParamType;
+    filterType: FilterType;
 
     // Comparision type
     compareType: ComparisonType;

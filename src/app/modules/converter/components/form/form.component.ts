@@ -66,16 +66,17 @@ export class FormComponent implements OnInit {
     // Move to next step
     public next(): void {
         this.isLoader = true;
-        const fn = () => this.backtestService
-            .setStore(this.form.get('content').value)
-            .pipe(finalize(() => { this.isLoader = false; }))
-            .subscribe(() => {
-                this.configureTable();
-                this.router.navigate([ 'list' ], {
-                    relativeTo: this.route,
-                    queryParamsHandling: 'merge',
+        const fn = () =>
+            this.backtestService
+                .setStore(this.form.get('content').value)
+                .pipe(finalize(() => { this.isLoader = false; }))
+                .subscribe(() => {
+                    this.configureTable();
+                    this.router.navigate([ 'list' ], {
+                        relativeTo: this.route,
+                        queryParamsHandling: 'merge',
+                    });
                 });
-            });
         // Crutch for view loader
         setTimeout(fn, 200);
     }

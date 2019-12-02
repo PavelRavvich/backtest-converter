@@ -1,21 +1,32 @@
 import { Injectable, NgZone } from '@angular/core';
-import {Observable, of } from 'rxjs';
+import { Sort } from '@angular/material';
+import { Observable, of } from 'rxjs';
 
 // Interfaces
 import {
+    IFilter,
     IBacktest,
-    IBacktestList, IBacktestListRequest,
+    IBacktestList,
+    IBacktestListRequest,
 } from '../../interfaces';
 
 // Helpers
-import { parseBacktest } from '../../helpers';
+import {
+    compareColumns,
+    compareParams,
+    parseBacktest,
+} from '../../helpers';
 
 @Injectable()
 export class BacktestService {
 
     private store: IBacktest[] = [];
 
-    constructor(private readonly ngZone: NgZone) {}
+    private data: IBacktest[] = [];
+
+    constructor(
+        private readonly ngZone: NgZone,
+    ) {}
 
     public setStore(content: string): Observable<void> {
         return new Observable<void>((observer) => {
@@ -31,10 +42,43 @@ export class BacktestService {
     }
 
     public getList(request: IBacktestListRequest): Observable<IBacktestList> {
-        console.log(request);
+        this.data = this.store;
+
+        this.filter(request.columns, compareColumns);
+        this.filter(request.params, compareParams);
+        this.sort(request.sort);
         return of({
-            total: this.store.length,
-            items: this.store
+            total: this.data.length,
+            items: this.data.slice(
+                request.offset,
+                request.offset + request.limit
+            ),
         });
+    }
+
+    private filter(
+        filters: IFilter[],
+        comparator: (
+            item: IBacktest,
+            filter: IFilter,
+        ) => boolean,
+    ): void {
+        filters.forEach(filter =>
+            this.data = this.ngZone
+                .runOutsideAngular(
+                    (): IBacktest[] => this.data
+                        .filter(
+                            item => comparator(item, filter)
+                        )
+                )
+        );
+    }
+
+    private sort(sort: Sort): void {
+        if (!sort.direction) { return; }
+        const compareFn = sort.direction === 'asc'
+            ? (a, b) => b[sort.active] - a[sort.active]
+            : (a, b) => a[sort.active] - b[sort.active];
+        this.data = this.data.sort(compareFn);
     }
 }
