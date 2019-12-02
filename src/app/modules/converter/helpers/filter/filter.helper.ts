@@ -59,12 +59,9 @@ const commands: Array<{
     }
 ];
 
-export const compareColumns = (item: IBacktest, filter: IFilter): boolean =>
+export const compare = (item: IBacktest, filter: IFilter): boolean =>
     commands
         .find(
             command => command.is(filter.filterType, filter.compareType)
         )
         .execute(item, filter);
-
-
-export const compareParams = (item: IBacktest, filter: IFilter): boolean => true;

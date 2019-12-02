@@ -105,8 +105,12 @@
             </ng-container>
 
             <ng-container matColumnDef="params">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Параметры</th>
-                <td mat-cell *matCellDef="let item"> {{item.params}} </td>
+                <th mat-header-cell *matHeaderCellDef>Параметры</th>
+                <td mat-cell *matCellDef="let item">
+                    <div *ngFor="let param of params">
+                        {{param}}={{item[param]}}
+                    </div>
+                </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="columns"></tr>

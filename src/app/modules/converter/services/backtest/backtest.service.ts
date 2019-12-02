@@ -12,16 +12,17 @@ import {
 
 // Helpers
 import {
-    compareColumns,
-    compareParams,
+    compare,
     parseBacktest,
 } from '../../helpers';
 
 @Injectable()
 export class BacktestService {
 
+    // Total loaded backtest
     private store: IBacktest[] = [];
 
+    // Active backtest for view
     private data: IBacktest[] = [];
 
     constructor(
@@ -43,9 +44,7 @@ export class BacktestService {
 
     public getList(request: IBacktestListRequest): Observable<IBacktestList> {
         this.data = this.store;
-
-        this.filter(request.columns, compareColumns);
-        this.filter(request.params, compareParams);
+        this.filter(request.filters, compare);
         this.sort(request.sort);
         return of({
             total: this.data.length,

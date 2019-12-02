@@ -3,7 +3,6 @@ export {
     parseBacktest,
 } from './backtest/backtest.helper';
 export {
+    compare,
     toIFilter,
-    compareParams,
-    compareColumns,
 } from './filter/filter.helper';

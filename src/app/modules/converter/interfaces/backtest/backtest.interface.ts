@@ -1,8 +1,8 @@
 // Backtest item
 export interface IBacktest {
 
-    // Adviser input parameters.
-    params?: any;
+    // Addition field input parameters.
+    [key: string]: number;
 
     // Number of backtest
     number: number;

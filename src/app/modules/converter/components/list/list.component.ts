@@ -29,9 +29,7 @@ import {
 } from '../../interfaces';
 
 // Helpers
-import {
-    toIFilter,
-} from '../../helpers';
+import { toIFilter } from '../../helpers';
 import { randomUUID } from '@shared/helpers';
 
 // Enums
@@ -98,6 +96,9 @@ export class ListComponent implements OnInit {
     // Displayed columns
     public columns = [];
 
+    // Displayed params
+    public params = [];
+
     // Header sort
     private readonly sort: Sort = {
         active: null,
@@ -119,6 +120,7 @@ export class ListComponent implements OnInit {
         private readonly storeService: BacktestService,
     ) {
         this.columns = this.tableService.getColumns();
+        this.params = this.tableService.getParams();
     }
 
     public ngOnInit() {
@@ -132,8 +134,10 @@ export class ListComponent implements OnInit {
             sort: this.sort,
             limit: this.pagination.pageSize,
             offset: this.pagination.pageIndex * this.pagination.pageSize,
-            params: this.paramForms.map(item => toIFilter(item)).filter(item => item.isActive),
-            columns: this.columnForms.map(item => toIFilter(item)).filter(item => item.isActive),
+            filters: [
+                ... this.paramForms.map(item => toIFilter(item)).filter(item => item.isActive),
+                ... this.columnForms.map(item => toIFilter(item)).filter(item => item.isActive),
+            ],
         })
             .pipe(finalize(() => this.isLoading = false))
             .subscribe(
