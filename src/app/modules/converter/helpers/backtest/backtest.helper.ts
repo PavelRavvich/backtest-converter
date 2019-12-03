@@ -25,3 +25,14 @@ export function parseParams(data: string[]): any {
     });
     return params;
 }
+
+export const removeDuplicates = (data: IBacktest[]): IBacktest[] =>
+    data.filter(
+        (backtest, i, backtestList) =>
+            backtestList.findIndex(
+                (item: IBacktest) =>
+                    (item.profit === backtest.profit
+                        && item.value === backtest.value
+                        && item.dropDownCurrency === backtest.dropDownCurrency
+                        && item.profitToDropDown === backtest.profitToDropDown)
+            ) === i);

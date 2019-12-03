@@ -14,6 +14,7 @@ import {
 import {
     compare,
     parseBacktest,
+    removeDuplicates,
 } from '../../helpers';
 
 @Injectable()
@@ -31,12 +32,18 @@ export class BacktestService {
 
     public setStore(content: string): Observable<void> {
         return new Observable<void>((observer) => {
-            this.store = this.ngZone.runOutsideAngular((): IBacktest[] => {
-                return content
-                    .trim()
-                    .split('\n')
-                    .map(item => parseBacktest(item));
-            });
+            this.store = this.ngZone
+                .runOutsideAngular(
+                    (): IBacktest[] =>
+                        removeDuplicates(
+                            content
+                                .trim()
+                                .split('\n')
+                                .map(
+                                    item => parseBacktest(item)
+                                )
+                        )
+                );
             observer.next();
             observer.complete();
         });

@@ -1,6 +1,7 @@
 export {
     parseParams,
     parseBacktest,
+    removeDuplicates,
 } from './backtest/backtest.helper';
 export {
     compare,
