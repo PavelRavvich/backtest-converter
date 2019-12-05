@@ -34,9 +34,6 @@ export class FilterParamComponent implements OnInit {
     // Notification about remove this filter
     @Output() public removeChange = new EventEmitter<string>();
 
-    // Params for autocomplete
-    public params: string[];
-
     // Filter data types enum
     public FilterType = FilterType;
 
@@ -45,9 +42,7 @@ export class FilterParamComponent implements OnInit {
 
     constructor(
         private readonly tableService: TableService,
-    ) {
-        this.params = tableService.getParams();
-    }
+    ) {}
 
     public ngOnInit(): void {
         this.subscribeForm();
@@ -82,6 +77,14 @@ export class FilterParamComponent implements OnInit {
                     skipControlValidation(valueFrom);
                 }
             });
+    }
+
+    // Filtering params by title for autocomplete
+    public getParams(title: string): string[] {
+        const params = this.tableService.getParams();
+        return !title
+            ? params
+            : params.filter(item => item.indexOf(title) !== -1);
     }
 
     // Switch on/off filter
