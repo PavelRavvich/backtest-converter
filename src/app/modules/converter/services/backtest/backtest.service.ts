@@ -50,6 +50,7 @@ export class BacktestService {
     }
 
     public getList(request: IBacktestListRequest): Observable<IBacktestList> {
+        debugger
         this.data = this.store;
         this.filter(request.filters, compare);
         this.sort(request.sort);

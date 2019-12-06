@@ -16,6 +16,12 @@ import {
 } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 
+// Enums
+import {
+    ViewMode,
+    FilterType,
+} from '../../enums';
+
 // Services
 import {
     TableService,
@@ -29,11 +35,10 @@ import {
 } from '../../interfaces';
 
 // Helpers
-import { toIFilter } from '../../helpers';
-import { randomUUID } from '@shared/helpers';
-
-// Enums
-import { FilterType } from '../../enums';
+import {
+    toIFilter,
+    filterFactory,
+} from '../../helpers';
 
 
 // List cases
@@ -48,44 +53,10 @@ export class ListComponent implements OnInit {
     public readonly paramForms: FormGroup[] = [];
 
     // Columns filter list
-    public readonly columnForms: FormGroup[] = [
-        new FormGroup({
-            filterType: new FormControl(FilterType.Numeric),
-            key: new FormControl('value'),
-            name: new FormControl('Всего сделок'),
-            value: new FormControl(null),
-            valueTo: new FormControl(null),
-            valueFrom: new FormControl(null),
-            compareType: new FormControl(null),
-        }),
-        new FormGroup({
-            filterType: new FormControl(FilterType.Numeric),
-            key: new FormControl('profit'),
-            name: new FormControl('Прибыль $'),
-            value: new FormControl(null),
-            valueTo: new FormControl(null),
-            valueFrom: new FormControl(null),
-            compareType: new FormControl(null),
-        }),
-        new FormGroup({
-            filterType: new FormControl(FilterType.Numeric),
-            key: new FormControl('dropDownCurrency'),
-            name: new FormControl('Просадка $'),
-            value: new FormControl(null),
-            valueTo: new FormControl(null),
-            valueFrom: new FormControl(null),
-            compareType: new FormControl(null),
-        }),
-        new FormGroup({
-            filterType: new FormControl(FilterType.Numeric),
-            key: new FormControl('profitToDropDown'),
-            name: new FormControl('Прибыль/Просадка $'),
-            value: new FormControl(null),
-            valueTo: new FormControl(null),
-            valueFrom: new FormControl(null),
-            compareType: new FormControl(null),
-        }),
-    ];
+    public readonly columnForms: FormGroup[] = [];
+
+    // Filter view modes enum
+    public ViewMode = ViewMode;
 
     // View loader
     public isLoading = false;
@@ -119,11 +90,18 @@ export class ListComponent implements OnInit {
         private readonly tableService: TableService,
         private readonly storeService: BacktestService,
     ) {
-        this.columns = this.tableService.getColumns();
         this.params = this.tableService.getParams();
+        this.columns = this.tableService.getColumns()
+            .map(item => item.value);
+        debugger
     }
 
     public ngOnInit() {
+        this.loadPage();
+    }
+
+    public applyFilters(): void {
+        this.pagination.pageIndex = 0;
         this.loadPage();
     }
 
@@ -148,25 +126,21 @@ export class ListComponent implements OnInit {
             );
     }
 
+    // Pagination change handler
     public onPageChange(event: PageEvent): void {
         this.pagination.pageIndex = event.pageIndex;
         this.pagination.pageSize = event.pageSize;
         this.loadPage();
     }
 
-    // Add new filter to filter list
-    public add(): void {
-        this.paramForms.push(
-            new FormGroup({
-                id: new FormControl(randomUUID()),
-                key: new FormControl(null),
-                filterType: new FormControl(null),
-                compareType: new FormControl(null),
-                value: new FormControl(null),
-                valueFrom: new FormControl(null),
-                valueTo: new FormControl(null),
-            })
-        );
+    // Add new param filter to filter list
+    public addParamFilter(): void {
+        this.paramForms.push(filterFactory());
+    }
+
+    // Add new column filter to filter list
+    public addColumnFilter(): void {
+        this.columnForms.push(filterFactory(true));
     }
 
     // Remove filter param
@@ -177,12 +151,22 @@ export class ListComponent implements OnInit {
         this.paramForms.push(... swap);
     }
 
+    // Remove filter column
+    public removeFilterColumn(id: string): void {
+        const swap = this.columnForms
+            .filter(item => id !== item.get('id').value);
+        this.columnForms.length = 0;
+        this.columnForms.push(... swap);
+    }
+
+    // Table sort handler
     public sorting(sort: Sort): void {
         this.sort.active = sort.active;
         this.sort.direction = sort.direction;
         this.loadPage();
     }
 
+    // Navigate back
     public back(): void {
         this.tableService.reset();
         this.router.navigate([ '..' ], {

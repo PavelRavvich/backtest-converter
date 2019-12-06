@@ -10,7 +10,7 @@ import {
     ListComponent,
     FormComponent,
     LayoutComponent,
-    FilterParamComponent,
+    FilterComponent,
 } from './components';
 
 // Services
@@ -18,15 +18,13 @@ import {
     TableService,
     BacktestService,
 } from './services';
-import { FilterColumnComponent } from './components/filter-column/filter-column.component';
 
 @NgModule({
     declarations: [
         FormComponent,
         ListComponent,
         LayoutComponent,
-        FilterParamComponent,
-        FilterColumnComponent,
+        FilterComponent,
     ],
     imports: [
         SharedModule,

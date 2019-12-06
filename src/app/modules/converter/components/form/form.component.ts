@@ -85,7 +85,9 @@ export class FormComponent implements OnInit {
     private configureTable(): void {
         this.columns.forEach(column => {
             if (this.form.get('columns').get(column.controlName).value) {
-                this.tableService.addColumn(column.controlName);
+                this.tableService.addColumn({
+                    title: column.title, value: column.controlName
+                });
             }
         });
 

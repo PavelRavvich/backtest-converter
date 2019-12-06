@@ -20,29 +20,43 @@
         </app-title>
 
         <div *ngFor="let form of columnForms">
-            <app-filter-column [form]="form"></app-filter-column>
-        </div>
-    </div>
-
-    <div>
-        <app-title class="page-title mb20">
-            Фильтры по параметрам
-        </app-title>
-
-        <div *ngFor="let paramForm of paramForms">
-            <app-filter-param
-                [form]="paramForm"
-                (removeChange)="removeFilterParam($event)"
-            ></app-filter-param>
+            <app-filter
+                [form]="form"
+                [mode]="ViewMode.Column"
+                (removeChange)="removeFilterColumn($event)"
+            ></app-filter>
         </div>
 
+        <div class="mr-auto">
+            <button
+                type="button"
+                color="primary"
+                mat-raised-button
+                (click)="addColumnFilter()">
+                Добавить
+            </button>
+        </div>
+
+        <div>
+            <app-title class="page-title mb20">
+                Фильтры по параметрам
+            </app-title>
+
+            <div *ngFor="let paramForm of paramForms">
+                <app-filter
+                    [form]="paramForm"
+                    [mode]="ViewMode.Param"
+                    (removeChange)="removeFilterParam($event)"
+                ></app-filter>
+            </div>
+        </div>
         <div class="page-title-bar">
             <div class="mr-auto">
                 <button
                     type="button"
                     color="primary"
                     mat-raised-button
-                    (click)="add()">
+                    (click)="addParamFilter()">
                     Добавить
                 </button>
             </div>
@@ -52,7 +66,7 @@
                     type="button"
                     color="primary"
                     mat-raised-button
-                    (click)="loadPage()">
+                    (click)="applyFilters()">
                     Применить
                 </button>
             </app-buttons>

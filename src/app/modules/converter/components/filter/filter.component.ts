@@ -10,6 +10,7 @@ import { pairwise } from 'rxjs/operators';
 
 // Enums
 import {
+    ViewMode,
     FilterType,
     ComparisonType,
 } from '../../enums';
@@ -22,11 +23,13 @@ import { TableService } from '../../services';
 
 // Filter by single adviser param
 @Component({
-    selector: 'app-filter-param',
-    templateUrl: './filter-param.component.html',
-    styleUrls: ['./filter-param.component.scss']
+    selector: 'app-filter',
+    templateUrl: './filter.component.html',
+    styleUrls: ['./filter.component.scss']
 })
-export class FilterParamComponent implements OnInit {
+export class FilterComponent implements OnInit {
+
+    @Input() public mode: ViewMode;
 
     // Filter form
     @Input() public form: FormGroup;
@@ -34,20 +37,33 @@ export class FilterParamComponent implements OnInit {
     // Notification about remove this filter
     @Output() public removeChange = new EventEmitter<string>();
 
+    // View modes
+    public ViewMode = ViewMode;
+
     // Filter data types enum
     public FilterType = FilterType;
 
     // Comparison types enum
     public ComparisonType = ComparisonType;
 
+    // Filter by columns
+    public columns: Array<{ title: string, value: string }>;
+
+    // Filter by params (autocomplete data)
+    public params: string[];
+
     constructor(
         private readonly tableService: TableService,
-    ) {}
+    ) {
+        this.columns = this.tableService.getColumns();
+        this.params = this.tableService.getParams();
+    }
 
     public ngOnInit(): void {
         this.subscribeForm();
     }
 
+    // Form control dependencies subscription
     private subscribeForm(): void {
         const {
             value,
@@ -81,10 +97,10 @@ export class FilterParamComponent implements OnInit {
 
     // Filtering params by title for autocomplete
     public getParams(title: string): string[] {
-        const params = this.tableService.getParams();
         return !title
-            ? params
-            : params.filter(item => item.indexOf(title) !== -1);
+            ? this.params
+            : this.params
+                .filter(item => item.indexOf(title) !== -1);
     }
 
     // Switch on/off filter

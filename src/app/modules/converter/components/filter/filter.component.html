@@ -1,8 +1,11 @@
 <app-card [formGroup]="form">
     <app-row>
-        <mat-form-field class="w200" appearance="outline">
+        <mat-form-field *ngIf="mode === ViewMode.Param" class="w200" appearance="outline">
             <mat-label>Параметр</mat-label>
-            <input matInput formControlName="key" [matAutocomplete]="keyAutocomplete">
+            <input
+                matInput
+                formControlName="key"
+                [matAutocomplete]="keyAutocomplete">
             <mat-autocomplete #keyAutocomplete="matAutocomplete">
                 <mat-option *ngFor="let param of getParams(form.get('key').value)" [value]="param">
                     {{param}}
@@ -10,7 +13,7 @@
             </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w180">
+        <mat-form-field appearance="outline" class="w180" *ngIf="mode === ViewMode.Param">
             <mat-label>Тип фильтра</mat-label>
             <mat-select required formControlName="filterType">
                 <mat-option [value]="FilterType.Numeric">Числовой</mat-option>
@@ -18,7 +21,21 @@
             </mat-select>
         </mat-form-field>
 
-        <div class="d-flex" *ngIf=" form.get('filterType').value && form.get('filterType').value !== FilterType.Boolean">
+        <mat-form-field *ngIf="mode === ViewMode.Column" class="w180 mr15" appearance="outline">
+            <mat-label>Колонка</mat-label>
+            <mat-select required formControlName="key">
+                <mat-option *ngFor="let column of columns" [value]="column.value">
+                    {{column.title}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="d-flex"
+             *ngIf="
+                (mode === ViewMode.Param && form.get('filterType').value
+                    && form.get('filterType').value !== FilterType.Boolean)
+                        || mode === ViewMode.Column && form.get('key').value
+                ">
             <mat-form-field class="w180 mr15" appearance="outline">
                 <mat-label>Тип сравнения</mat-label>
                 <mat-select required formControlName="compareType">
